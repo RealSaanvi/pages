@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B.Sc. 5th Sem GSPG Students</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* General body and font styles */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            color: #1f2937;
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0, #e91e63);
+            background-size: 400% 400%;
+            animation: gradient-bg 15s ease infinite;
+        }
+        
+        /* Keyframe animation for the background gradient */
+        @keyframes gradient-bg { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+
+        /* Responsive and modern header title */
+        .header-title { 
+            font-family: 'Poppins', sans-serif; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Student card styling */
+        .student-card {
+            position: relative; 
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07), 0 8px 10px -6px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 0.5rem;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            margin: 0.25rem;
+            min-width: 0;
+        }
+
+        .student-card:hover { 
+            transform: translateY(-5px) scale(1.02); 
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.2); 
+        }
+        
+        /* Boy and girl card specific colors */
+        .boy-card { 
+            background-color: rgba(66, 153, 225, 0.8);
+            color: #e2e8f0; 
+            border: 1px solid #4a5568; 
+        }
+        .girl-card { 
+            background-color: rgba(255, 105, 180, 0.8);
+            color: #4a5568; 
+            border: 1px solid #ffb6c1;
+        }
+
+        /* Custom image sizes and styles */
+        .boy-photo {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 9999px;
+            object-fit: cover;
+            margin-bottom: 0.5rem;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+        .girl-photo {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 9999px;
+            object-fit: cover;
+            margin-bottom: 0.5rem;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+        
+        /* Name and Roll number styling with overflow fix */
+        .student-name { 
+            font-weight: 700; 
+            font-size: 1rem;
+            margin-bottom: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #ffffff;
+            width: 100%;
+            padding: 0 0.5rem;
+        }
+        
+        .rakhi-image {
+            width: 100%;
+            max-width: 80px;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Main grid for pairs - Reverted to a column layout */
+        .student-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        /* Container for each pair with a nice backdrop effect */
+        .pair-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .pair-container .student-card {
+            flex: 1 1 45%;
+        }
+
+        /* Share Button */
+        .share-button {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            background: rgba(255, 255, 255, 0);
+            border-radius: 50%;
+            padding: 0.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            z-index: 10;
+        }
+        .share-button:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 1);
+        }
+        .share-button img {
+            width: 0px;
+            height: 0px;
+        }
+
+        /* Share Popup styles */
+        .share-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .share-popup-content {
+            background: linear-gradient(to bottom, #fff, #f8fafc);
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .share-popup-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ef4444;
+            line-height: 1;
+        }
+        .share-text-area {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            resize: none;
+            font-size: 0.875rem;
+            background-color: #f9fafb;
+        }
+        .share-text-area:focus {
+            outline: none;
+            border-color: #fce4ec;
+        }
+        .copy-button, .whatsapp-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .copy-button {
+            background-color: #e91e63;
+        }
+        .copy-button:hover {
+            background-color: #c2185b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px -2px rgba(0,0,0,0.15);
+        }
+        .whatsapp-button {
+            background-color: #25d366;
+        }
+        .whatsapp-button:hover {
+            background-color: #128c7e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px -2px rgba(0,0,0,0.15);
+        }
+        .whatsapp-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Music Start Popup Styles */
+        #startPopup {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0, #e91e63);
+            background-size: 400% 400%;
+            animation: gradient-bg 15s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        #startButton {
+            padding: 20px 40px;
+            font-size: 24px;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-family: 'Poppins', sans-serif;
+        }
+        #startButton:hover {
+            background: #c2185b;
+        }
+
+        #mainContentWrapper {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            z-index: 0;
+            overflow-x: hidden;
+        }
+        
+        /* Message box for alert replacement */
+        .message-box-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3000;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: none;
+        }
+        .message-box-container.show {
+            display: block;
+        }
+
+        /* Back to top button styling */
+        #back-to-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: scale(0.9);
+            z-index: 1000;
+        }
+        #back-to-top-btn.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="startPopup">
+      <button id="startButton">Start!</button>
+    </div>
+
+    <audio id="bgMusic" loop>
+      <source src="https://audio.jukehost.co.uk/0yk4Um2Ycjn3oU49uhYY0l4FywbZk4Qq" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <div id="mainContentWrapper">
+        <div class="container mx-auto px-4 py-12 relative">
+            <header class="text-center mb-12">
+                <h1 class="header-title text-4xl md:text-5xl font-bold text-gray-800">B.Sc. 5th Sem GSPG Students</h1>
+                <p class="text-lg text-gray-500 mt-2">Happy Rakshabandhan (Randomly Generated)</p>
+                <p class="text-md text-gray-600 mt-2">Made By WEDNESDAY. WhatsApp- 9838225780 
+                    <a href="https://wa.me/919838225780?text=Hello%20Who%20are%20You" target="_blank" class="inline-block align-middle ml-1">
+                        <img src="https://ouch-prod-var-cdn.icons8.com/dj/illustrations/previews/V9v8ZSeJ-e1XyzdZ.webp" alt="WhatsApp" class="w-6 h-6 inline-block" />
+                    </a>
+                </p>
+            </header>
+
+            <div class="max-w-4xl mx-auto mb-8 space-y-4 bg-white/50 backdrop-blur-sm p-6 rounded-2xl shadow-lg">
+                <input type="text" id="searchInput" onkeyup="applyFilters()" placeholder="Search by Name or Roll Number..." class="w-full px-6 py-4 text-lg bg-white border-2 border-gray-200 rounded-full shadow-inner focus:outline-none focus:ring-2 focus:ring-pink-500">
+            </div>
+
+            <div id="student-grid" class="student-grid">
+                <!-- Pairs will be generated here by JavaScript -->
+            </div>
+            
+            <div id="no-results" class="hidden text-center mt-12 bg-white/60 backdrop-blur-md p-8 rounded-2xl shadow-lg">
+                <h3 class="text-2xl font-semibold text-gray-700">No Matching Students Found</h3>
+            </div>
+        </div>
+        
+        <button id="back-to-top-btn" title="Go to top">↑</button>
+    </div>
+
+    <div id="sharePopup" class="share-popup">
+        <div class="share-popup-content">
+            <span class="share-popup-close" onclick="closeSharePopup()">&times;</span>
+            <h3 class="text-xl font-bold text-pink-600 mb-4">Share this Rakhi Pair!</h3>
+            <p class="text-sm text-gray-600 mb-4">Copy the link or share directly on WhatsApp.</p>
+            <textarea id="shareText" class="share-text-area" readonly></textarea>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-4">
+                <button class="copy-button" onclick="copyShareText()">
+                    Copy Link
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                </button>
+                <button class="whatsapp-button" onclick="shareViaWhatsApp()">
+                    Share via WhatsApp
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-share"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><path d="M16 3h5v5"/><path d="m16 8 5-5"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom message box for alert() replacement -->
+    <div id="messageBox" class="message-box-container hidden">
+        <p id="messageText"></p>
+    </div>
+
+    <script>
+        // --- SCRIPT FOR MUSIC START POPUP AND INITIALIZATION ---
+        const startButton = document.getElementById('startButton');
+        const startPopup = document.getElementById('startPopup');
+        const mainContentWrapper = document.getElementById('mainContentWrapper');
+        const bgMusic = document.getElementById('bgMusic');
+        const studentGrid = document.getElementById('student-grid');
+        const noResultsMessage = document.getElementById('no-results');
+        
+        // Share button assets
+        const shareIconSvg = `<img src="https://www.kindpng.com/picc/m/391-3913246_share-transparent-background-share-icon-hd-png-download.png" alt="Share" class="w-6 h-6">`;
+
+        // Student Data
+        const allStudents = [
+            // Boys: from 23040100410001 to 23040100410105
+            { name: "ABHISHEK", roll: "23040100410001", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ABHISHEK KUMAR", roll: "23040100410003", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ADIL KHAN", roll: "23040100410004", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ADITYA", roll: "23040100410005", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/a3b85f32-513b-402c-937e-61a8b335665e.jpg" },
+            { name: "ADITYA GAUTAM", roll: "23040100410006", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/7665ff43-6b72-4e3e-88c6-29de4a34aeb4.jpg" },
+            { name: "ADITYA KUMAR VERMA", roll: "23040100410007", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ADITYA SHUKLA", roll: "23040100410008", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/966d6ae3-7e95-4978-a89a-495c361af894.jpg" },
+            { name: "ADRASH YADAV", roll: "23040100410009", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/91156f86-3d50-4d09-8f9f-ad6680e3c445.jpg" },
+            { name: "AFTAB AHMAD", roll: "23040100410010", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/45b56615-75c2-4262-bace-b98361eee643.jpg" },
+            { name: "AMAN PANDEY", roll: "23040100410015", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/bfaaa4c6-5f7c-4807-9282-dea2a03f7d9a.jpg" },
+            { name: "AMBUJ TIWARI", roll: "23040100410017", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "AMIT GAUTAM", roll: "23040100410018", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ANKUSH KUMAR", roll: "23040100410021", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/0429c98e-4f89-4cb7-bee2-c0c07f909654.jpg" },
+            { name: "AVNISH VISHWAKARMA", roll: "23040100410038", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/f1c8be47-35b1-48f9-a13d-b67b133508d2.jpg" },
+            { name: "BELAL AHMAD", roll: "23040100410039", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "CHIRAG YADAV", roll: "23040100410040", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/cf6ca5af-6c0c-437d-8e49-a924353efcd3.jpg" },
+            { name: "DIVYAM TRIPATHI", roll: "23040100410044", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/c158a7da-5f18-404c-bb84-95b322ccd3d8.jpg" },
+            { name: "GOVIND KUMAR YADAV", roll: "23040100410046", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/3aebe743-393c-4d86-a8ce-2a81f2cb26ab.jpg" },
+            { name: "HIMANSHU MISHRA", roll: "23040100410047", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/c57839cd-0e79-410c-8ee0-7176204a3912.jpg" },
+            { name: "IKRAM WARIS", roll: "23040100410048", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/13a5e9c0-8988-4ee6-a519-a11eb31d0f97.jpg" },
+            { name: "ISHAN VATSA", roll: "23040100410049", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "KUMAR SHREYANSH SINGH", roll: "23040100410051", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/4a7ceec2-5992-4f74-bfd9-a020b3bedef0.jpg" },
+            { name: "LAVKUSH PAL", roll: "23040100410053", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MAYANK TIWARI", roll: "23040100410055", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/8f3b0176-5bde-4d9c-a68a-66de7d7edbe4.jpg" },
+            { name: "MO AHASAN", roll: "23040100410056", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/25ec072c-1681-4ced-bb70-5bcb1bbea8a8.jpg" },
+            { name: "MO ASHIF KHAN", roll: "23040100410057", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MOHD AFTAB", roll: "23040100410058", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/935f1dce-63e2-4f15-af5e-35f5217d1baf.jpg" },
+            { name: "MOHD FURKAN KHAN", roll: "23040100410059", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MOHD KAIF", roll: "23040100410060", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/ae7ec3b1-8db7-442e-b335-9bf10f9c6bbf.jpg" },
+            { name: "MOHD TALIB KHAN", roll: "23040100410061", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MRIDUL SRIVASTAVA", roll: "23040100410062", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "NISHANT SINGH", roll: "23040100410064", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/5f8d933f-76da-4123-a9f5-a2fc43d927de.jpg" },
+            { name: "OM MISHRA", roll: "23040100410065", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/20716438-ee3f-4533-aa98-1ca4c837596c.jpg" },
+            { name: "PRABHAT PAL", roll: "23040100410067", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/7bc42964-ca63-4c8f-bb8c-5cab5cb7c5dc.jpg" },
+            { name: "PRANAV PANDEY", roll: "23040100410068", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "PRASHANT MISHRA", roll: "23040100410069", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "PRINCE KUMAR", roll: "23040100410070", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/162d922a-443c-4022-8e0e-1fd9482436a5.jpg" },
+            { name: "PURUSHOTTAM MISHRA", roll: "23040100410072", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/b18b98bd-61d2-44b4-b5b0-d439ac15f0c8.jpg" },
+            { name: "RAHUL YADAV", roll: "23040100410073", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/6fe2d9cd-0950-4095-a3ed-f56c1231edb3.jpg" },
+            { name: "RAJ GAURAV SINGH", roll: "23040100410074", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/df3214a3-6a44-43fe-9b22-187993d98e50.jpg" },
+            { name: "RAJ VIKRAM SINGH", roll: "23040100410075", isBoy: true, photo: "https://i.ibb.co/84P3Z4Z8/image.png" },
+            { name: "RAJAN", roll: "23040100410076", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/5289cb4f-2b8a-4026-88c6-6db68f2e12e0.jpg" },
+            { name: "RAJEEV TIWARI", roll: "23040100410077", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/fda8cc86-bc02-462f-b8fa-5a8d28704027.jpg" },
+            { name: "RAJNEESH YADAV", roll: "23040100410078", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/4f215d75-eab6-40ed-8622-12935b7e801e.jpg" },
+            { name: "RAJNISH TIWARI", roll: "23040100410079", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/818fa785-430b-42b8-b634-3b8b1b3f9bc4.jpg" },
+            { name: "RISHABH TIWARI", roll: "23040100410081", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "RISHABH TIWARI", roll: "23040100410082", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/ea92d736-e42d-4b38-b34f-c5c1fca7ae8c.jpg" },
+            { name: "SAHANI ABHISHEK SANJAYKUMAR", roll: "23040100410083", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/cb01bf24-9955-4a7e-9790-7523cf6e0633.jpg" },
+            { name: "SAURABH YADAV", roll: "23040100410087", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/9e0ec8de-d3f2-4a8b-9154-9ed6d99597b9.jpg" },
+            { name: "SHAILESH YADAV", roll: "23040100410088", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/631754dd-30d5-4144-91aa-638232e7a4eb.jpg" },
+            { name: "SHASHANK PANDEY", roll: "23040100410089", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/96cf4ce0-6644-40fa-8257-a446ec7c3938.jpg" },
+            { name: "SHASHWAT TIWARI", roll: "23040100410090", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/7354e440-76c5-423c-b7c3-be74e3fdb177.jpg" },
+            { name: "SHATRUGHAN", roll: "23040100410091", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/9daef382-880c-4237-89e4-9731971b4e0a.jpg" },
+            { name: "SHIV RAM", roll: "23040100410092", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/656f2bbd-5fc6-4a0d-9770-33b6427ad19b.jpg" },
+            { name: "SHUBHAM MAURYA", roll: "23040100410094", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/4edf5a52-1d40-4bc3-a3e4-a71cc573441a.jpg" },
+            { name: "SUDHANSHU MISHRA", roll: "23040100410095", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/fc231e97-eebe-4766-a77a-aa9fc31c65ca.jpg" },
+            { name: "SUDHANSHU PATHAK", roll: "23040100410096", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SUMIT KUMAR", roll: "23040100410097", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SURAJ YADAV", roll: "23040100410100", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/1eaa5038-74a6-475c-adec-97514b2e622f.jpg" },
+            { name: "VAIBHAV PANDEY", roll: "23040100410102", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/33fbea5d-c7d9-44e0-aa39-827507447f48.jpg" },
+            { name: "VIKAS KUMAR", roll: "23040100410103", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/75835510-3275-4091-adeb-8f22aa81d81f.jpg" },
+            { name: "VINAY KUMAR", roll: "23040100410104", isBoy: true, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "YOGESH KUMAR SHUKLA", roll: "23040100410105", isBoy: true, photo: "http://rmlau.site/Photo/UIN2024/Photo/e6305ac2-39cf-45a5-82cc-c752fdc78476.jpg" },
+            
+            // Girls: from 23040100410107 onwards
+            { name: "AANCHAL SINGH", roll: "23040100410107", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/a03f2c91-1dd4-4019-80da-d94ada9ea7a3.jpg" },
+            { name: "ABHA YADAV", roll: "23040100410108", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/95b9f616-0f22-482e-8334-b35a7838c7c0.jpg" },
+            { name: "ADITI", roll: "23040100410109", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/345bcd6e-1fdf-4dda-b399-4d1840a6616d.jpg" },
+            { name: "ADITI", roll: "23040100410110", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/a5ecf4e2-7a35-42eb-9f6d-34d6a4818fc5.jpg" },
+            { name: "AFIFA MARIYAM", roll: "23040100410111", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "AKANKSHA JAISWAL", roll: "23040100410112", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/0946aef2-4c73-430a-8f9c-7ad3fbc3847d.jpg" },
+            { name: "AKANKSHA MODANWAL", roll: "23040100410113", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/07555d6b-7a84-462c-b31a-f762742acf9a.jpeg" },
+            { name: "AKSHA BANO", roll: "23040100410114", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/0e380540-5e1e-4452-a789-9df81c047462.jpg" },
+            { name: "AKSHA BANO", roll: "23040100410115", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/6d0375bd-dc81-422e-b8bc-6f5e0504f765.jpg" },
+            { name: "ALFIYA BANO", roll: "23040100410117", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ALFIYA BANO", roll: "23040100410118", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "AMITA BHEEM", roll: "23040100410120", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "AMRITA PAL", roll: "23040100410121", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/15910c09-4ba1-41c7-b85d-c503513a2ff2.jpg" },
+            { name: "ANAMIKA", roll: "23040100410123", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/bbec4130-f43a-48e4-8a2f-a30788921339.jpg" },
+            { name: "ANAMIKA PANDEY", roll: "23040100410124", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/d2cb4e54-5445-4ecd-96a1-05832cf8caf8.jpg" },
+            { name: "ANAMIKA YADAV", roll: "23040100410125", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/df33dbef-3a5e-41c3-82c6-888583417083.jpg" },
+            { name: "ANCHAL MISHRA", roll: "23040100410126", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ANCHAL MISHRA", roll: "23040100410127", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/a6f69be6-1c27-4a38-84a1-d01e0bf51008.jpg" },
+            { name: "ANCHAL SHARMA", roll: "23040100410128", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/958c5ab5-9397-44cc-aafe-e5f4f2fdbe3f.jpg" },
+            { name: "ANJALI YADAV", roll: "23040100410129", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/18cecff5-084f-47a1-8319-9a062a664577.jpg" },
+            { name: "ANJALI YADAV", roll: "23040100410130", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ANKITA PRAJAPATI", roll: "23040100410131", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/db5db561-e925-4d10-a896-50699b9d26a0.jpg" },
+            { name: "ANKITA TIWARI", roll: "23040100410132", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/994876c3-3512-4c07-9d52-b6d76fb3a75b.jpg" },
+            { name: "ANSHI BARANWAL", roll: "23040100410133", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/006aec7d-634f-43a4-8dc3-797649170423.jpg" },
+            { name: "ANSHI PANDEY", roll: "23040100410134", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/ff2f9213-a12a-4c1f-9b3a-dce497a3d39f.jpg" },
+            { name: "ANSHIKA", roll: "23040100410135", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/c2195506-1dda-493e-9347-7aa7df8d789b.jpg" },
+            { name: "ANSHIKA SINGH", roll: "23040100410136", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/7f7351e3-4eae-4004-8fcc-18622d47694c.jpg" },
+            { name: "ANSHIKA SRIVASTAVA", roll: "23040100410137", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/15ab05cc-1590-4d62-8975-b965b918b3bb.jpg" },
+            { name: "ANTIMA KASHYAP", roll: "23040100410138", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ANUPRIYA UPADHYAYA", roll: "23040100410139", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ARCHANA YADAV", roll: "23040100410140", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/ea0a160d-abcd-479e-9c0b-6580e2e27e86.jpg" },
+            { name: "ARPITA SINGH", roll: "23040100410141", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/18a81135-ad7c-41eb-b54d-3fa2022f798e.jpg" },
+            { name: "ARPITA VERMA", roll: "23040100410142", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/33de09a2-cbc5-46a1-ba4d-73653e400f58.jpg" },
+            { name: "ARSHIYA", roll: "23040100410143", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/9c9d56fc-087d-4e28-9a5f-6b3c8ab29f95.jpg" },
+            { name: "ARUSHI YADAV", roll: "23040100410144", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/aceb70a5-378f-455b-97ae-31f50716f660.jpg" },
+            { name: "ARYA MISHRA", roll: "23040100410145", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/75a37f7f-10c7-438a-aa39-a969e4f2af0d.jpg" },
+            { name: "ASTHA SHARMA", roll: "23040100410146", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/29b27c71-0e59-4093-8290-9d2128432c2a.jpg" },
+            { name: "ASTHA SINGH", roll: "23040100410147", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/a50591a3-cc78-4cef-82e9-d4a5028f97b6.jpg" },
+            { name: "AYSHA PARVEEN", roll: "23040100410148", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "AYUSHI", roll: "23040100410150", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/121213b4-e9dd-4ba2-b551-b09d83a43a9c.jpg" },
+            { name: "AYUSHI MISHRA", roll: "23040100410151", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "AYUSHI SINGH", roll: "23040100410152", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/82f2f197-e5af-422d-afe3-de084374f5dc.jpg" },
+            { name: "BABLI YADAV", roll: "23040100410153", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/8fc13b8b-76c6-49ca-8276-0c5a194e7fc7.jpg" },
+            { name: "DEEPMALA YADAV", roll: "23040100410157", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/82af011f-7beb-4e19-958d-9b7b1feb2f49.jpg" },
+            { name: "DEEPIKA SINGH", roll: "23040100410156", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/a9a34c60-9263-4b90-9b98-cb69ddf913ff.jpg" },
+            { name: "DEEPANSHI SRIVASTAVA", roll: "23040100410155", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "DIKSHA SHARMA", roll: "23040100410158", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/74d8538f-6917-41c7-ad30-099b8e7023c6.jpg" },
+            { name: "DIVYA SINGH", roll: "23040100410159", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/fc654146-ca82-40eb-940a-d9c9e1c41add.jpg" },
+            { name: "DIVYA TIWARI", roll: "23040100410160", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/433575f8-ec18-46fc-bf11-29f8fdfcb23b.jpg" },
+            { name: "EKTA", roll: "23040100410161", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "GARIMA MAURYA", roll: "23040100410163", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/a179f5d4-adb2-4baa-a8b1-7b5493fe59ff.jpg" },
+            { name: "HARSHITA SHARMA", roll: "23040100410164", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "HARSHITA SINGH", roll: "23040100410165", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/dc071678-6067-4d30-8c0c-e15dcbf02a1c.jpg" },
+            { name: "IQRA BANO", roll: "23040100410166", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/52181136-9975-4007-a59b-470edb2ec4bc.jpg" },
+            { name: "ISHA SINGH", roll: "23040100410167", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/1c7197d3-a73b-4389-a00b-621e7f3922e2.jpg" },
+            { name: "JUFISHA", roll: "23040100410168", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "JUHI SINGH", roll: "23040100410169", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/2cb81ea7-ee5e-40c9-9e3c-489ba16cb18e.jpg" },
+            { name: "JYOTI VERMA", roll: "23040100410170", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "KAJAL KUMARI", roll: "23040100410171", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/54ccd058-5d14-4168-a175-d3aa58db8053.jpg" },
+            { name: "KAJAL MAURYA", roll: "23040100410172", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/f2ae2225-5fbd-4a4f-b626-5e72534b0a11.jpg" },
+            { name: "KAJAL SHARMA", roll: "23040100410173", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/611c076b-78c3-4227-a5fc-d0881f4af831.jpg" },
+            { name: "KAJAL YADAV", roll: "23040100410174", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/25f815e1-554d-4c7b-8e59-6e7351ed4951.jpg" },
+            { name: "KAJAL YADAV", roll: "23040100410175", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/8f5ed1aa-fca4-4972-82d7-86e61998d740.jpg" },
+            { name: "KAMINI GIRI", roll: "23040100410176", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/556b46f2-225f-4236-a764-bd9e799cf9b0.jpg" },
+            { name: "KASHISH MAURYA", roll: "23040100410177", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/db7a8d9e-c5c9-430c-8319-de03a09e5cc8.jpg" },
+            { name: "KHUSHBOO YADAV", roll: "23040100410178", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/1a598d41-11cd-47be-86af-54b81a35ba30.jpg" },
+            { name: "KHUSHI", roll: "23040100410179", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "KHUSHI DWIVEDI", roll: "23040100410180", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "KHUSHI JAISAWAL", roll: "23040100410181", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/d5e708d5-6e28-4a86-a5cc-e5ac488dea82.jpg" },
+            { name: "KHUSHI PANDEY", roll: "23040100410182", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/793ac5d4-0cfa-4972-8a75-343bc3602087.jpg" },
+            { name: "KHUSHI PATHAK", roll: "23040100410183", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/ec350cc6-09c7-485a-9bee-470acfb6d687.jpg" },
+            { name: "KHUSHI SINGH", roll: "23040100410184", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "KHUSHI TIWARI", roll: "23040100410185", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/1482bd8b-4cd8-401f-aa02-978c3b25af1c.jpg" },
+            { name: "KHUSHNUMA BANO", roll: "23040100410186", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/3cc3edd4-03e7-452f-b72e-b2567639eb1f.jpg" },
+            { name: "KHUSHNUMA BANO", roll: "23040100410187", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/9f7f974f-14c0-497b-9f49-f202f0111eaf.jpg" },
+            { name: "KIRTI GUPTA", roll: "23040100410188", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/e8157399-a833-4c6b-8866-dc43c788777b.jpg" },
+            { name: "KOMAL", roll: "23040100410189", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/adc153d5-7494-4104-a290-7ea5d228966f.jpg" },
+            { name: "LAXMI MAURYA", roll: "23040100410190", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/6891dd36-dbc2-4cc3-bd7a-6c7f8de500a1.jpg" },
+            { name: "LAXMI YADAV", roll: "23040100410191", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MADHU TIWARI", roll: "23040100410192", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/3dc2922b-d90e-4f1c-9e7f-5e5d00a2dd8f.jpg" },
+            { name: "MAHIMA", roll: "23040100410193", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MAHIMA TIWARI", roll: "23040100410194", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MAIBISH BANO", roll: "23040100410195", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MAIBISH BANO", roll: "23040100410196", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MAIVISH KHAN", roll: "23040100410197", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MANSHI", roll: "23040100410198", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/b7e1135d-8d19-49a4-96fb-158fc5a3beb5.jpg" },
+            { name: "MANSI MAURYA", roll: "23040100410199", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/be7f057c-8e7a-4463-8f13-a5e9dda1821f.jpg" },
+            { name: "MANSI PAL", roll: "23040100410200", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MANSI TRIPATHI", roll: "23040100410201", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/6fb2e64d-a3e2-497e-ad44-14d9b5c85286.jpg" },
+            { name: "MANVEE KASAUDHAN", roll: "23040100410202", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "MUBASSHIREEN BANO", roll: "23040100410203", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/32367ec0-d194-4aed-a7fe-01b02a7a938c.jpg" },
+            { name: "MUSKAN TIWARI", roll: "23040100410204", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/464e2cca-5643-455d-97e9-4ecea84ea838.jpg" },
+            { name: "NANCY PAL", roll: "23040100410206", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "NEHA", roll: "23040100410207", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "NEHA MAURYA", roll: "23040100410208", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/921e6798-a99c-4e71-bfa6-70381fca5867.jpg" },
+            { name: "NIDA MOHAMMADI", roll: "23040100410209", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "NIDHI SHARMA", roll: "23040100410210", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "NIDHI SINGH", roll: "23040100410211", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/0e6edb7e-3038-4519-9168-6d89d40131a7.jpg" },
+            { name: "NIDHI TIWARI", roll: "23040100410212", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/82163f49-75cd-4a90-8ee9-613b85f1a57d.jpg" },
+            { name: "NIKITA MAURYA", roll: "23040100410213", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "NITEE GUPTA", roll: "23040100410214", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/29876a05-4f17-4baf-9c49-7eb7a934bb64.jpg" },
+            { name: "NIVARINI", roll: "23040100410215", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "NOOR BANO", roll: "23040100410216", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/bdc6a3de-b6be-4f72-8469-52b588178a47.jpg" },
+            { name: "PARUL YADAV", roll: "23040100410217", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "POOJA SINGH", roll: "23040100410218", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/6588094a-32fb-40d6-8049-fbe3b9989810.jpg" },
+            { name: "POOJA YADAV", roll: "23040100410219", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "PRACHI SHRIVASTAVA", roll: "23040100410220", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/f079db01-53c7-49e0-9d96-68128bbafcee.jpg" },
+            { name: "PRACHI SHUKLA", roll: "23040100410221", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "PRAGYA MISHRA", roll: "23040100410222", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "PRATIMA YADAV", roll: "23040100410223", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/355e2df8-d2c4-4130-a2f2-a86ff39e111a.jpg" },
+            { name: "PREETI", roll: "23040100410224", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "PRIYA AGRAHARI", roll: "23040100410225", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/657f16d6-6fa3-4e38-9acc-03451559dc5e.jpg" },
+            { name: "PRIYANSHU PAL", roll: "23040100410226", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/57cc26ee-3a2f-4e96-8463-b4dc66fe203c.jpg" },
+            { name: "PRIYANSI SINGH", roll: "23040100410227", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/5ae33dc7-f949-4ce8-87cb-4d8735ceaf6b.jpg" },
+            { name: "RAGINI PRAJAPATI", roll: "23040100410228", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/ca441a69-d2f4-4192-8c88-433cfd8146c0.jpg" },
+            { name: "RAHELA ZAINAB", roll: "23040100410229", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "RATNA RAI", roll: "23040100410230", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "RICHA", roll: "23040100410231", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "RICHA", roll: "23040100410232", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "RICHA MISHRA", roll: "23040100410233", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "RICHA YADAV", roll: "23040100410234", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/9d7e17e2-8857-4d78-a72f-96428d3c3211.jpg" },
+            { name: "RIYA CHAUDHARI", roll: "23040100410235", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/334365da-c3fe-4def-91fe-5525db595aa3.jpg" },
+            { name: "RIYA PANDEY", roll: "23040100410237", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/47bf9bc8-64fe-422c-92d5-8a2451f05ae3.jpg" },
+            { name: "ROOMA YADAV", roll: "23040100410238", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/1684fcd7-9a4a-4cc7-9ce6-fbcff7ef0a1a.jpg" },
+            { name: "ROSHANI VERMA", roll: "23040100410239", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ROSHNI BANO", roll: "23040100410240", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "ROSHNI PRAJAPATI", roll: "23040100410241", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/5abd6154-9ef0-43f9-84f8-6d13b8278d59.jpg" },
+            { name: "RUBI BANO", roll: "23040100410242", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/36461c48-8901-4a8f-a4f7-8ee311156e02.jpg" },
+            { name: "RUHI BANO", roll: "23040100410243", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/3754ab00-3a36-458c-8e5c-32493fc684ef.jpg" },
+            { name: "SADHNA GUPTA", roll: "23040100410244", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/c5a111bb-b5d3-42ad-bdeb-ba64cf1d3b58.jpg" },
+            { name: "SADIYA NAAZ", roll: "23040100410245", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SAKSHI YADAV", roll: "23040100410247", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SALONI MAURYA", roll: "23040100410248", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/30b512d6-78f4-4f4c-93bc-06f7d9c12da9.jpg" },
+            { name: "SAMIYA MIRZA", roll: "23040100410249", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SANA FAROOQ", roll: "23040100410250", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/48938b79-c80d-49b3-bc02-1303fd709193.jpg" },
+            { name: "SANA FATIMA", roll: "23040100410251", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/3492b2a9-bb01-4975-aaed-52634c270260.jpg" },
+            { name: "SANA MAHMOOD", roll: "23040100410252", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/d3776299-f4ab-4e02-82e4-6d7535dd2bec.jpg" },
+            { name: "SANDHYA SHUKLA", roll: "23040100410253", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SANDHYA YADAV", roll: "23040100410254", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SANIYA ZEHRA", roll: "23040100410255", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/073aee8f-dca6-4ce2-88b0-cde04b0494ec.jpg" },
+            { name: "SANJANA", roll: "23040100410256", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SANJANA MODANWAL", roll: "23040100410257", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/90a828cd-5c56-4171-9b66-c37703c23afa.jpg" },
+            { name: "SANJU", roll: "23040100410258", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/e67cbf65-b51e-465a-ac26-8ac37d8f8003.jpg" },
+            { name: "SANJU PAL", roll: "23040100410259", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SAUMYA", roll: "23040100410260", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/978273df-05ad-4d31-ae55-34b09d0be8ac.jpg" },
+            { name: "SEJAL MAURYA", roll: "23040100410261", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/957cf638-021c-41ef-8179-1a065e4e016c.jpg" },
+            { name: "SHAGUN GUPTA", roll: "23040100410262", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/15bff795-4253-4348-aab1-07f6d598dcee.jpg" },
+            { name: "SHAJIYA PARVEEN", roll: "23040100410263", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/3ae42165-46d1-4f20-89da-071d0fde05ed.jpg" },
+            { name: "SHAKYA SHUKLA", roll: "23040100410264", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/f83f6a52-0db2-4348-b5a2-03e7f3eb004f.jpg" },
+            { name: "SHALINI", roll: "23040100410265", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/f15a584c-770c-498e-b6e7-56a38ac63ba2.jpg" },
+            { name: "SHALU VERMA", roll: "23040100410267", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/38896c21-6912-425d-9242-4de90f353e7d.jpg" },
+            { name: "SHAN ZEHRA", roll: "23040100410268", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SHEEBA BANO", roll: "23040100410269", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SHIKHA YADAV", roll: "23040100410270", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/4beeb198-d3be-4431-aab6-315df078dbb3.jpg" },
+            { name: "SHIKSHA SHUKLA", roll: "23040100410271", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/723d733a-34d5-4536-8d1b-8dc00e38d5ed.jpg" },
+            { name: "SHIVANI", roll: "23040100410272", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/6cddf7ca-3142-4cf4-92fe-02640d1e0b41.jpg" },
+            { name: "SHIVANI HARISHYAM YADAV", roll: "23040100410273", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SHIVANI JAISWAL", roll: "23040100410274", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SHIVANI MAURYA", roll: "23040100410275", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/dfd161ec-20dc-42d2-8002-91c92640fd6c.jpg" },
+            { name: "SHIVANI YADAV", roll: "23040100410276", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/5444abdf-7824-41ec-951c-1804d6b80803.jpg" },
+            { name: "SHRADDHA", roll: "23040100410277", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SHRADDHA SINGH", roll: "23040100410278", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SHREYA PANDEY", roll: "23040100410279", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/79fce20a-c9ab-4402-af95-b700b732707f.jpg" },
+            { name: "SHREYA VERMA", roll: "23040100410280", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/01651100-9bef-49dd-aa66-9eca16feb60f.jpg" },
+            { name: "SHRISHTI YADAV", roll: "23040100410281", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/56d1ab99-dd3e-4324-9c38-e15cf20b1bcf.jpg" },
+            { name: "SHRUTI SRIVASTAVA", roll: "23040100410282", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/cff7ed65-b9e5-48c1-8e5f-575e493078f9.jpg" },
+            { name: "SHUBHI PANDEY", roll: "23040100410284", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SHWETA KUMARI", roll: "23040100410285", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SHWETA NISHAD", roll: "23040100410286", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/0930a9d5-b5f0-4415-9262-cd17d9550c07.png" },
+            { name: "SHWETA PANDEY", roll: "23040100410287", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/97bb1e6e-8b8a-4c3e-bad1-a1dfa03b81f2.jpg" },
+            { name: "SIDDHI SHARMA", roll: "23040100410288", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SIMRAN SINGH", roll: "23040100410289", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/44f1f07f-1348-41e1-9a24-87af68522cbf.jpg" },
+            { name: "SMRITI SAGAR", roll: "23040100410290", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SONAM MAURYA", roll: "23040100410292", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/2e2b8033-4765-4652-bba2-2d2f1dc41d32.jpg" },
+            { name: "SRISHTI PANDEY", roll: "23040100410293", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/e16406fb-e838-4aaa-a3ec-1332b29beceb.jpg" },
+            { name: "SRISHTI PANDEY", roll: "23040100410294", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SUCHI YADAV", roll: "23040100410295", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SUHANI MAURYA", roll: "23040100410296", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/36765740-e784-45e5-ba80-b4a84a4faa58.jpg" },
+            { name: "SUSHMA SAROJ", roll: "23040100410298", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "SWATI PANDEY", roll: "23040100410299", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/3809fb14-9c75-4948-8454-c32e1dcfb14b.jpg" },
+            { name: "SWATI YADAV", roll: "23040100410300", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "TANU BARANWAL", roll: "23040100410301", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "TANVI MISHRA", roll: "23040100410302", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "TANYA SONI", roll: "23040100410303", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "TARANNUM FATMA", roll: "23040100410304", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "TOUSHEEBA FATIMA", roll: "23040100410305", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "UMME AIMAN", roll: "23040100410306", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/1efaa1f3-dcd2-4414-bf8c-60ea4a1c6c98.jpg" },
+            { name: "VAISHNAVI MAURYA", roll: "23040100410307", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/784ecdeb-420f-4aa7-9165-fcd552a3dcb5.jpg" },
+            { name: "VANDANA MISHRA", roll: "23040100410309", isBoy: false, photo: "https://i.ibb.co/Y7vVw467/image.png" },
+            { name: "VANDANA VERMA", roll: "23040100410310", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/b97a885d-2c7d-475e-947f-d1de0753e3f4.jpg" },
+            { name: "VARSHA BHATT", roll: "23040100410311", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/bbe8c95c-af52-4739-9d6c-50b02322cc7d.jpg" },
+            { name: "ZAINAB BUTOOL", roll: "23040100410312", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/6bd31d5d-b55a-4983-943a-feb3e707d9dd.jpg" },
+            { name: "ZAINAB KHATOON", roll: "23040100410313", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/88e11432-39dc-4033-902d-875a675748e5.jpg" },
+            { name: "ZEENAT KHAN", roll: "23040100410314", isBoy: false, photo: "http://rmlau.site/Photo/UIN2024/Photo/9f95ffae-336c-445d-9e1e-ec2de9131740.jpg" }
+        ];
+
+        // Custom alert function
+        function showMessage(message) {
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            messageText.textContent = message;
+            messageBox.classList.remove('hidden');
+            messageBox.classList.add('show');
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+                messageBox.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Creates the HTML for a single student card
+        function createStudentCard(student, isBoyCard) {
+            const defaultPhoto = "https://i.ibb.co/Y7vVw467/image.png";
+            return `
+            <div class="student-card ${isBoyCard ? 'boy-card' : 'girl-card'}">
+                <img src="${student.photo}" 
+                     onerror="this.onerror=null; this.src='${defaultPhoto}';" 
+                     alt="Photo of ${student.name}" 
+                     class="${isBoyCard ? 'boy-photo' : 'girl-photo'}">
+                <h2 class="student-name">${student.name}</h2>
+                <p class="text-sm text-white/80">${student.roll}</p>
+                ${isBoyCard ? `<img src="https://img.pikbest.com/origin/09/32/54/30PpIkbEsTdFb.png!sw800" alt="Rakhi" class="rakhi-image">` : ''}
+            </div>
+            `;
+        }
+
+        // Randomly shuffles an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        // Renders a pre-filtered set of pairs directly to the grid
+        function renderFilteredPairs(pairs) {
+            studentGrid.innerHTML = '';
+            
+            pairs.forEach(pair => {
+                const pairContainer = document.createElement('div');
+                pairContainer.className = 'pair-container';
+                
+                // Add the share button
+                const boy = pair.find(s => s.isBoy);
+                if (boy) {
+                    const shareButton = document.createElement('button');
+                    shareButton.className = 'share-button';
+                    shareButton.innerHTML = shareIconSvg;
+                    // The fix is here: using an anonymous function to correctly pass the variables
+                    shareButton.onclick = () => {
+                        const generatedLink = `https://rakhi.com?search=${boy.roll}`;
+                        openSharePopup(boy.name, generatedLink);
+                    };
+                    pairContainer.appendChild(shareButton);
+                }
+
+                pair.forEach(student => {
+                    pairContainer.innerHTML += createStudentCard(student, student.isBoy);
+                });
+                studentGrid.appendChild(pairContainer);
+            });
+            
+            if (studentGrid.children.length === 0) {
+                noResultsMessage.classList.remove('hidden');
+            } else {
+                noResultsMessage.classList.add('hidden');
+            }
+        }
+
+        // Renders all student pairs with the standard pairing logic
+        function renderAllStudentPairs(studentsToRender) {
+            const allBoys = studentsToRender.filter(s => s.isBoy);
+            const allGirls = studentsToRender.filter(s => !s.isBoy);
+            const boysWithUniquePhotos = allBoys.filter(s => s.photo !== "https://i.ibb.co/Y7vVw467/image.png");
+            const boysWithDefaultPhotos = allBoys.filter(s => s.photo === "https://i.ibb.co/Y7vVw467/image.png");
+            const girlsWithUniquePhotos = allGirls.filter(s => s.photo !== "https://i.ibb.co/Y7vVw467/image.png");
+            const girlsWithDefaultPhotos = allGirls.filter(s => s.photo === "https://i.ibb.co/Y7vVw467/image.png");
+
+            shuffleArray(girlsWithUniquePhotos);
+            shuffleArray(girlsWithDefaultPhotos);
+
+            const pairs = [];
+            const createPairs = (boys, girls) => {
+                for (let i = 0; i < boys.length; i++) {
+                    const boy = boys[i];
+                    const pairGirls = [];
+                    for (let j = 0; j < 3 && girls.length > 0; j++) {
+                        pairGirls.push(girls.shift());
+                    }
+                    if (pairGirls.length > 0) {
+                        pairs.push([boy, ...pairGirls]);
+                    }
+                }
+            };
+            
+            createPairs(boysWithUniquePhotos, girlsWithUniquePhotos);
+            createPairs(boysWithDefaultPhotos, girlsWithDefaultPhotos);
+
+            const specificBoyRoll = "23040100410075";
+            const specificPair = [
+                allStudents.find(s => s.roll === specificBoyRoll),
+                allStudents.find(s => s.name === "RIYA PANDEY"),
+                allStudents.find(s => s.name === "KHUSHI PATHAK"),
+                allStudents.find(s => s.name === "AYUSHI SINGH")
+            ].filter(s => s);
+            
+            if (specificPair.length === 4) {
+                const specificBoy = specificPair[0];
+                const existingPairIndex = pairs.findIndex(p => p.length > 0 && p[0].roll === specificBoy.roll);
+                if(existingPairIndex !== -1) {
+                    pairs.splice(existingPairIndex, 1);
+                }
+                pairs.splice(1, 0, specificPair);
+            }
+
+            renderFilteredPairs(pairs);
+        }
+
+        // Handles search and filters the displayed pairs
+        function applyFilters() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (searchInput === '') {
+                renderAllStudentPairs(allStudents);
+                return;
+            }
+
+            const allPairs = [];
+            const allBoys = allStudents.filter(s => s.isBoy);
+            const allGirls = allStudents.filter(s => !s.isBoy);
+            const girlsCopy = [...allGirls];
+            allBoys.forEach(boy => {
+                const pairGirls = [];
+                for (let j = 0; j < 3 && girlsCopy.length > 0; j++) {
+                    pairGirls.push(girlsCopy.shift());
+                }
+                if (pairGirls.length > 0) {
+                    allPairs.push([boy, ...pairGirls]);
+                }
+            });
+
+            const specificBoyRoll = "23040100410075";
+            const specificPair = [
+                allStudents.find(s => s.roll === specificBoyRoll),
+                allStudents.find(s => s.name === "RIYA PANDEY"),
+                allStudents.find(s => s.name === "KHUSHI PATHAK"),
+                allStudents.find(s => s.name === "AYUSHI SINGH")
+            ].filter(s => s);
+            
+            if (specificPair.length === 4) {
+                 const specificBoy = specificPair[0];
+                 const existingPairIndex = allPairs.findIndex(p => p.length > 0 && p[0].roll === specificBoy.roll);
+                 if (existingPairIndex !== -1) {
+                     allPairs.splice(existingPairIndex, 1);
+                 }
+                 allPairs.splice(1, 0, specificPair);
+            }
+
+            const filteredPairs = allPairs.filter(pair => {
+                return pair.some(student => 
+                    student.name.toLowerCase().includes(searchInput) || 
+                    student.roll.toLowerCase().includes(searchInput)
+                );
+            });
+            
+            renderFilteredPairs(filteredPairs);
+        }
+        
+        // Function to check URL for search parameter and apply filter
+        function checkUrlForSearch() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const rollNumber = urlParams.get('search');
+            if (rollNumber) {
+                const searchInput = document.getElementById('searchInput');
+                searchInput.value = rollNumber;
+                applyFilters();
+            } else {
+                renderAllStudentPairs(allStudents);
+            }
+        }
+
+        // --- SCRIPT FOR BACK TO TOP BUTTON ---
+        const backToTopBtn = document.getElementById('back-to-top-btn');
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        };
+        backToTopBtn.onclick = function() { window.scrollTo({top: 0, behavior: 'smooth'}); };
+        
+        // --- Share Popup Functions ---
+        let currentShareText = "";
+        function openSharePopup(studentName, generatedLink) {
+            const sharePopup = document.getElementById('sharePopup');
+            const shareTextArea = document.getElementById('shareText');
+            
+            currentShareText = `Happy Rakshabandhan, ${studentName}! See your pair of Sisters here: ${generatedLink}     By Wednesday.....`;
+            shareTextArea.value = currentShareText;
+            sharePopup.style.display = 'flex';
+        }
+
+        function closeSharePopup() {
+            document.getElementById('sharePopup').style.display = 'none';
+        }
+
+        function copyShareText() {
+            const shareTextArea = document.getElementById('shareText');
+            shareTextArea.select();
+            shareTextArea.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            showMessage("Link copied to clipboard!");
+            closeSharePopup();
+        }
+
+        function shareViaWhatsApp() {
+            const whatsappText = encodeURIComponent(currentShareText);
+            window.open(`https://wa.me/?text=${whatsappText}`, '_blank');
+            closeSharePopup();
+        }
+
+        // --- INITIALIZE PAGE ---
+        document.addEventListener('DOMContentLoaded', function() {
+            startButton.addEventListener('click', () => {
+                bgMusic.volume = 0.8;
+                bgMusic.play();
+                startPopup.style.display = 'none';
+                mainContentWrapper.style.display = 'block';
+                checkUrlForSearch(); // Check URL on initial load
+            });
+        });
+    </script>
+</body>
+</html>
