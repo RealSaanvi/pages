@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCA 3rd Semester Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Dark background */
+            color: #d1d5db; /* Light text */
+        }
+        .card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            border-color: #3b82f6;
+        }
+        /* Removed modal-backdrop and modal-content styles as modal is removed */
+        .table-header {
+            background-color: #374151;
+        }
+        .table-row:nth-child(even) {
+            background-color: #1f2937;
+        }
+        .table-row:nth-child(odd) {
+            background-color: #273142;
+        }
+        .loader {
+            border-top-color: #3b82f6;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white">BCA 3rd Semester Result</h1>
+            <p class="text-gray-400 mt-2">Dr. Rammanohar Lohia Avadh University, Ayodhya</p>
+        </header>
+
+        <div class="card p-4 mb-8">
+            <div class="flex flex-col md:flex-row gap-4 items-center">
+                <div class="relative flex-grow w-full">
+                    <input type="text" id="searchInput" class="w-full bg-gray-900 border border-gray-600 rounded-lg py-2 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Search by Roll No or Name...">
+                    <svg class="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <div id="summary" class="flex gap-4 text-sm text-gray-300 w-full md:w-auto justify-center">
+                    </div>
+            </div>
+        </div>
+
+        <div id="loader" class="flex justify-center items-center h-64">
+            <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-600 h-12 w-12"></div>
+        </div>
+        
+        <div id="resultsContainer" class="card overflow-hidden hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="table-header text-xs text-gray-300 uppercase">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Rank</th>
+                            <th scope="col" class="px-6 py-3">Roll No</th>
+                            <th scope="col" class="px-6 py-3">Student Name</th>
+                            <th scope="col" class="px-6 py-3">Father's Name</th>
+                            <th scope="col" class="px-6 py-3">Status</th>
+                            <th scope="col" class="px-6 py-3">MARKS</th>
+                            <th scope="col" class="px-6 py-3 text-center">Result</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+        <p id="noResults" class="text-center text-gray-500 mt-8 hidden">No results found.</p>
+
+    </div>
+
+    <footer class="text-center p-4 text-xs text-gray-600">
+        <p>Disclaimer: This is a student-made project for educational purposes. Data is loaded from an Excel file. For official results, please visit the university's official website.</p>
+    </footer>
+
+    <script>
+        const allResults = [
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwOTk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHIVANI GUPTA",
+        "Father's Name": "RAMESH KUMAR GUPTA",
+        "Roll No": "23040100420099",
+        "Marks": "609.0",
+        "Status": "PASSED",
+        "Rank": 1
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwOTg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHIVANGI TIWARI",
+        "Father's Name": "KULDEEP TIWARI",
+        "Roll No": "23040100420098",
+        "Marks": "606.0",
+        "Status": "PASSED",
+        "Rank": 2
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNTM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ARADHANA TRIPATHI",
+        "Father's Name": "VED PRAKASH TRIPATHI",
+        "Roll No": "23040100420053",
+        "Marks": "604.0",
+        "Status": "PASSED",
+        "Rank": 3
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwOTY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHIVANGI MAURYA",
+        "Father's Name": "DEVENDRA MAURYA",
+        "Roll No": "23040100420096",
+        "Marks": "604.0",
+        "Status": "PASSED",
+        "Rank": 4
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAyMDE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHANTI",
+        "Father's Name": "ASHOK KUMAR",
+        "Roll No": "23040100420201",
+        "Marks": "604.0",
+        "Status": "PASSED",
+        "Rank": 5
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "KAUSHIKI TIWARI",
+        "Father's Name": "RAM HIMANCHAL TIWARI",
+        "Roll No": "23040100420065",
+        "Marks": "600.0",
+        "Status": "PASSED",
+        "Rank": 6
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMDY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "AMAN KUMAR",
+        "Father's Name": "JAYPRAKASH",
+        "Roll No": "23040100420006",
+        "Marks": "599.0",
+        "Status": "PASSED",
+        "Rank": 7
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxMDE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SNEHA TIWARI",
+        "Father's Name": "JAY PRAKASH TIWARI",
+        "Roll No": "23040100420101",
+        "Marks": "599.0",
+        "Status": "PASSED",
+        "Rank": 8
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxMDQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "YADAV KOMAL RAJENDRAPRASAD",
+        "Father's Name": "RAJENDRAPRASAD YADAV",
+        "Roll No": "23040100420104",
+        "Marks": "595.0",
+        "Status": "PASSED",
+        "Rank": 9
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxMDA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHUBHI PANDEY",
+        "Father's Name": "ANANT PRASAD PANDEY",
+        "Roll No": "23040100420100",
+        "Marks": "593.0",
+        "Status": "PASSED",
+        "Rank": 10
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PRIYANSHU",
+        "Father's Name": "NAND LAL",
+        "Roll No": "23040100420029",
+        "Marks": "591.0",
+        "Status": "PASSED",
+        "Rank": 11
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "MAMTA YADAV",
+        "Father's Name": "JITENDRA YADAV",
+        "Roll No": "23040100420069",
+        "Marks": "590.0",
+        "Status": "PASSED",
+        "Rank": 12
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxMDM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SWATI YADAV",
+        "Father's Name": "ARVIND YADAV",
+        "Roll No": "23040100420103",
+        "Marks": "590.0",
+        "Status": "PASSED",
+        "Rank": 13
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNTY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "DEEPIKA GUPTA",
+        "Father's Name": "AMARJEET GUPTA",
+        "Roll No": "23040100420056",
+        "Marks": "587.0",
+        "Status": "PASSED",
+        "Rank": 14
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxODA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SAURABH GUPTA",
+        "Father's Name": "KUNVAR BHARAT GUPTA",
+        "Roll No": "23040100420180",
+        "Marks": "585.0",
+        "Status": "PASSED",
+        "Rank": 15
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwOTA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SALONI",
+        "Father's Name": "DEVI PRASAD",
+        "Roll No": "23040100420090",
+        "Marks": "584.0",
+        "Status": "PASSED",
+        "Rank": 16
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNDM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANAMIKA",
+        "Father's Name": "CHANDRA MANI TRIPATHI",
+        "Roll No": "23040100420043",
+        "Marks": "583.0",
+        "Status": "PASSED",
+        "Rank": 17
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNzg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PRIYA",
+        "Father's Name": "RAMESH KUMAR",
+        "Roll No": "23040100420078",
+        "Marks": "583.0",
+        "Status": "PASSED",
+        "Rank": 18
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwOTU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHALU AGRAHARI",
+        "Father's Name": "SATISH KUMAR",
+        "Roll No": "23040100420095",
+        "Marks": "581.0",
+        "Status": "PASSED",
+        "Rank": 19
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMTA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ASHOK KUMAR",
+        "Father's Name": "BALDEV",
+        "Roll No": "23040100420010",
+        "Marks": "579.0",
+        "Status": "PASSED",
+        "Rank": 20
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RUCHEE VERMA",
+        "Father's Name": "INDRAJEET VERMA",
+        "Roll No": "23040100420087",
+        "Marks": "579.0",
+        "Status": "PASSED",
+        "Rank": 21
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHAILESH UPADHYAY",
+        "Father's Name": "NEELESH UPADHYAY",
+        "Roll No": "23040100420034",
+        "Marks": "578.0",
+        "Status": "PASSED",
+        "Rank": 22
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RITU",
+        "Father's Name": "RAM BHAWAN",
+        "Roll No": "23040100420080",
+        "Marks": "578.0",
+        "Status": "PASSED",
+        "Rank": 23
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNTk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "GARIMA YADAV",
+        "Father's Name": "SHRIRAM YADAV",
+        "Roll No": "23040100420059",
+        "Marks": "577.0",
+        "Status": "PASSED",
+        "Rank": 24
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMDM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ADARSH MAURYA",
+        "Father's Name": "GYAN PRAKASH MAURYA",
+        "Roll No": "23040100420003",
+        "Marks": "576.0",
+        "Status": "PASSED",
+        "Rank": 25
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMTE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "CHANDRA PRAKASH",
+        "Father's Name": "RAJPATI",
+        "Roll No": "23040100420011",
+        "Marks": "576.0",
+        "Status": "PASSED",
+        "Rank": 26
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PARVEJ ALAM",
+        "Father's Name": "MOHAMMAD HARUN",
+        "Roll No": "23040100420024",
+        "Marks": "576.0",
+        "Status": "PASSED",
+        "Rank": 27
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwOTE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SALONI",
+        "Father's Name": "JASWANT",
+        "Roll No": "23040100420091",
+        "Marks": "576.0",
+        "Status": "PASSED",
+        "Rank": 28
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwOTQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHALINI MISHRA",
+        "Father's Name": "DURGA PRASAD",
+        "Roll No": "23040100420094",
+        "Marks": "576.0",
+        "Status": "PASSED",
+        "Rank": 29
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RITIK KUMAR",
+        "Father's Name": "SURJEET",
+        "Roll No": "23040100420033",
+        "Marks": "575.0",
+        "Status": "PASSED",
+        "Rank": 30
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNDQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANAMIKA MAURYA",
+        "Father's Name": "DHRUV MAURYA",
+        "Roll No": "23040100420044",
+        "Marks": "575.0",
+        "Status": "PASSED",
+        "Rank": 31
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNDk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANNU KUMARI",
+        "Father's Name": "VIJAY KUMAR",
+        "Roll No": "23040100420049",
+        "Marks": "575.0",
+        "Status": "PASSED",
+        "Rank": 32
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ROSNI YADAV",
+        "Father's Name": "RAMJEET YADAV",
+        "Roll No": "23040100420085",
+        "Marks": "575.0",
+        "Status": "PASSED",
+        "Rank": 33
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NIKHIL SINGH",
+        "Father's Name": "KRISHNA DEV SINGH",
+        "Roll No": "23040100420022",
+        "Marks": "574.0",
+        "Status": "PASSED",
+        "Rank": 34
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NITESH KUMAR",
+        "Father's Name": "RAJESH YADAV",
+        "Roll No": "23040100420023",
+        "Marks": "574.0",
+        "Status": "PASSED",
+        "Rank": 35
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNDU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANAMIKA SONI",
+        "Father's Name": "MAHESH SONI",
+        "Roll No": "23040100420045",
+        "Marks": "574.0",
+        "Status": "PASSED",
+        "Rank": 36
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMTc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "MOHAMMAD AKIB",
+        "Father's Name": "MO ISRAR",
+        "Roll No": "23040100420017",
+        "Marks": "572.0",
+        "Status": "PASSED",
+        "Rank": 37
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PINTOO",
+        "Father's Name": "RAM LAUT",
+        "Roll No": "23040100420025",
+        "Marks": "572.0",
+        "Status": "PASSED",
+        "Rank": 38
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "JYOTI",
+        "Father's Name": "TIRTHRAJ",
+        "Roll No": "23040100420062",
+        "Marks": "570.0",
+        "Status": "PASSED",
+        "Rank": 39
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxMDI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SROTI VERMA",
+        "Father's Name": "RAM SUBHAG VERMA",
+        "Roll No": "23040100420102",
+        "Marks": "570.0",
+        "Status": "PASSED",
+        "Rank": 40
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxODQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANCHAL CHAUBEY",
+        "Father's Name": "MAHENDRA KUMAR",
+        "Roll No": "23040100420184",
+        "Marks": "570.0",
+        "Status": "PASSED",
+        "Rank": 41
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RAJNISH MODANWAL",
+        "Father's Name": "RAMESH CHANDRA MODANWAL",
+        "Roll No": "23040100420031",
+        "Marks": "569.0",
+        "Status": "PASSED",
+        "Rank": 42
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNTU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "AYUSHI",
+        "Father's Name": "BRIJENDRA PRASAD DUBEY",
+        "Roll No": "23040100420055",
+        "Marks": "569.0",
+        "Status": "PASSED",
+        "Rank": 43
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAyMDI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHVETA GUPTA",
+        "Father's Name": "DWARIKA PRASAD",
+        "Roll No": "23040100420202",
+        "Marks": "569.0",
+        "Status": "PASSED",
+        "Rank": 44
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PRAVEEN KUMAR",
+        "Father's Name": "SATYA NARAYAN",
+        "Roll No": "23040100420028",
+        "Marks": "568.0",
+        "Status": "PASSED",
+        "Rank": 45
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RUKSAR BANO",
+        "Father's Name": "RAISH AHAMD",
+        "Roll No": "23040100420088",
+        "Marks": "567.0",
+        "Status": "PASSED",
+        "Rank": 46
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ROSHANI GAUTAM",
+        "Father's Name": "PRADEEP KUMAR",
+        "Roll No": "23040100420084",
+        "Marks": "566.0",
+        "Status": "PASSED",
+        "Rank": 47
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RAJENDRA KUMAR",
+        "Father's Name": "MEHILAL",
+        "Roll No": "23040100420030",
+        "Marks": "565.0",
+        "Status": "PASSED",
+        "Rank": 48
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNTE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANTIMA TIWARI",
+        "Father's Name": "MADAN MOHAN TIWARI",
+        "Roll No": "23040100420051",
+        "Marks": "565.0",
+        "Status": "PASSED",
+        "Rank": 49
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RIYA MISHRA",
+        "Father's Name": "SHIV PRASAD MISHRA",
+        "Roll No": "23040100420081",
+        "Marks": "565.0",
+        "Status": "PASSED",
+        "Rank": 50
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMDg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANKIT YADAV",
+        "Father's Name": "ASHOK YADAV",
+        "Roll No": "23040100420008",
+        "Marks": "564.0",
+        "Status": "PASSED",
+        "Rank": 51
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "KAJAL VERMA",
+        "Father's Name": "MAHENDRA",
+        "Roll No": "23040100420064",
+        "Marks": "564.0",
+        "Status": "PASSED",
+        "Rank": 52
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxNzY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "KRITESH PANDEY",
+        "Father's Name": "KRISHNA KUMAR PANDEY",
+        "Roll No": "23040100420176",
+        "Marks": "563.0",
+        "Status": "PASSED",
+        "Rank": 53
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxOTI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "LAKSHMI YADAV",
+        "Father's Name": "SANTOSH YADAV",
+        "Roll No": "23040100420192",
+        "Marks": "562.0",
+        "Status": "PASSED",
+        "Rank": 54
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMDc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "AMBUJ MISHRA",
+        "Father's Name": "KRISHNADEV MISHRA",
+        "Roll No": "23040100420007",
+        "Marks": "561.0",
+        "Status": "PASSED",
+        "Rank": 55
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNTc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "DIPTI KUMARI",
+        "Father's Name": "RAJENDRA KUMAR",
+        "Roll No": "23040100420057",
+        "Marks": "561.0",
+        "Status": "PASSED",
+        "Rank": 56
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNzQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PARUL PANDEY",
+        "Father's Name": "JAY PRAKASH PANDEY",
+        "Roll No": "23040100420074",
+        "Marks": "561.0",
+        "Status": "PASSED",
+        "Rank": 57
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMDQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "AKASH CHAURASIYA",
+        "Father's Name": "UMASHANKER CHAURASIYA",
+        "Roll No": "23040100420004",
+        "Marks": "560.0",
+        "Status": "PASSED",
+        "Rank": 58
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxOTQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NEHA PANDEY",
+        "Father's Name": "RAJNATH PANDEY",
+        "Roll No": "23040100420194",
+        "Marks": "559.0",
+        "Status": "PASSED",
+        "Rank": 59
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNDg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANKITA PAL",
+        "Father's Name": "RAJA RAM PAL",
+        "Roll No": "23040100420048",
+        "Marks": "557.0",
+        "Status": "PASSED",
+        "Rank": 60
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMTM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "DEEPANSHU SINGH",
+        "Father's Name": "PREMNATH SINGH",
+        "Roll No": "23040100420013",
+        "Marks": "556.0",
+        "Status": "PASSED",
+        "Rank": 61
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNTA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANTIMA PAL",
+        "Father's Name": "JAGDEV PAL",
+        "Roll No": "23040100420050",
+        "Marks": "556.0",
+        "Status": "PASSED",
+        "Rank": 62
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNzY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PRINCI PAL",
+        "Father's Name": "RAM ADHAR PAL",
+        "Roll No": "23040100420076",
+        "Marks": "556.0",
+        "Status": "PASSED",
+        "Rank": 63
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNTQ=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ARTI VERMA",
+        "Father's Name": "HARIRAM VERMA",
+        "Roll No": "23040100420054",
+        "Marks": "555.0",
+        "Status": "PASSED",
+        "Rank": 64
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxNzg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NITIN AGRAHARI",
+        "Father's Name": "ASHOK KUMAR",
+        "Roll No": "23040100420178",
+        "Marks": "554.0",
+        "Status": "PASSED",
+        "Rank": 65
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "KUMKUM BAUDDH",
+        "Father's Name": "DHANI RAM",
+        "Roll No": "23040100420067",
+        "Marks": "553.0",
+        "Status": "PASSED",
+        "Rank": 66
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxNzU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ALOK MISHRA",
+        "Father's Name": "SANTOSH KUMAR MISHRA",
+        "Roll No": "23040100420175",
+        "Marks": "553.0",
+        "Status": "PASSED",
+        "Rank": 67
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "TAHIR",
+        "Father's Name": "MO JAMEEL",
+        "Roll No": "23040100420037",
+        "Marks": "552.0",
+        "Status": "PASSED",
+        "Rank": 68
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "JYOTI CHATURVEDI",
+        "Father's Name": "SANTOSH",
+        "Roll No": "23040100420063",
+        "Marks": "552.0",
+        "Status": "PASSED",
+        "Rank": 69
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxOTg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RUBY YADAV",
+        "Father's Name": "BABURAM",
+        "Roll No": "23040100420198",
+        "Marks": "552.0",
+        "Status": "PASSED WITH GRACE",
+        "Rank": 70
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAyMDA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SARGAM",
+        "Father's Name": "SURENDRA KUMAR PANDEY",
+        "Roll No": "23040100420200",
+        "Marks": "552.0",
+        "Status": "PASSED",
+        "Rank": 71
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SAKSHI MISHRA",
+        "Father's Name": "RAMESH CHANDRA MISHRA",
+        "Roll No": "23040100420089",
+        "Marks": "551.0",
+        "Status": "PASSED",
+        "Rank": 72
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwOTI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SANIYA BANO",
+        "Father's Name": "ISHAK AHAMAD",
+        "Roll No": "23040100420092",
+        "Marks": "551.0",
+        "Status": "PASSED",
+        "Rank": 73
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "VIKAS KUMAR",
+        "Father's Name": "INDRAJEET",
+        "Roll No": "23040100420038",
+        "Marks": "548.0",
+        "Status": "PASSED",
+        "Rank": 74
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNTg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "GARIMA SINGH",
+        "Father's Name": "KUNWAR BAHADUR SINGH",
+        "Roll No": "23040100420058",
+        "Marks": "548.0",
+        "Status": "PASSED",
+        "Rank": 75
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "JANKI NISHAD",
+        "Father's Name": "BABURAM NISHAD",
+        "Roll No": "23040100420061",
+        "Marks": "548.0",
+        "Status": "PASSED",
+        "Rank": 76
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NAVNEET",
+        "Father's Name": "SHRIRAM",
+        "Roll No": "23040100420021",
+        "Marks": "547.0",
+        "Status": "PASSED",
+        "Rank": 77
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RIYA SINGH",
+        "Father's Name": "JAI PRAKASH SINGH",
+        "Roll No": "23040100420083",
+        "Marks": "546.0",
+        "Status": "PASSED",
+        "Rank": 78
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHIVKUMAR PRAJAPATI",
+        "Father's Name": "RAMJEET PRAJAPATI",
+        "Roll No": "23040100420035",
+        "Marks": "545.0",
+        "Status": "PASSED",
+        "Rank": 79
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "VISHVAS VIKRAM",
+        "Father's Name": "SURESH",
+        "Roll No": "23040100420039",
+        "Marks": "545.0",
+        "Status": "PASSED",
+        "Rank": 80
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RIYA SINGH",
+        "Father's Name": "HARISH KUMAR SINGH",
+        "Roll No": "23040100420082",
+        "Marks": "545.0",
+        "Status": "ATKT",
+        "Rank": 81
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxODE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SAURABH PANDEY",
+        "Father's Name": "RAJENDRA BAHADUR PANDEY",
+        "Roll No": "23040100420181",
+        "Marks": "542.0",
+        "Status": "PASSED",
+        "Rank": 82
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMTU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "HIMANSHU YADAV",
+        "Father's Name": "RAM SAGAR YADAV",
+        "Roll No": "23040100420015",
+        "Marks": "541.0",
+        "Status": "PASSED",
+        "Rank": 83
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NAVEEN",
+        "Father's Name": "SANTRAM",
+        "Roll No": "23040100420020",
+        "Marks": "541.0",
+        "Status": "PASSED",
+        "Rank": 84
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNzM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NIDHI VERMA",
+        "Father's Name": "ARVIND VERMA",
+        "Roll No": "23040100420073",
+        "Marks": "541.0",
+        "Status": "PASSED",
+        "Rank": 85
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNDI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANAMIKA",
+        "Father's Name": "RAVINDRA KUMAR",
+        "Roll No": "23040100420042",
+        "Marks": "540.0",
+        "Status": "PASSED",
+        "Rank": 86
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "KOMAL MAURYA",
+        "Father's Name": "SATYA NARAYAN MAURYA",
+        "Roll No": "23040100420066",
+        "Marks": "540.0",
+        "Status": "PASSED",
+        "Rank": 87
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxODM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "AKANKSHA SHUKLA",
+        "Father's Name": "UDAY BHAN SHUKLA",
+        "Roll No": "23040100420183",
+        "Marks": "540.0",
+        "Status": "PASSED WITH GRACE",
+        "Rank": 88
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNzc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PRITI YADAV",
+        "Father's Name": "DEVIDEEN YADAV",
+        "Roll No": "23040100420077",
+        "Marks": "539.0",
+        "Status": "PASSED",
+        "Rank": 89
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "LAJO",
+        "Father's Name": "JAGDISH",
+        "Roll No": "23040100420068",
+        "Marks": "538.0",
+        "Status": "PASSED",
+        "Rank": 90
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PRASHANT KUMAR DHURIYA",
+        "Father's Name": "ARVIND KUMAR DHURIYA",
+        "Roll No": "23040100420027",
+        "Marks": "536.0",
+        "Status": "PASSED",
+        "Rank": 91
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNDY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANCHAL PAL",
+        "Father's Name": "HARI LAL PAL",
+        "Roll No": "23040100420046",
+        "Marks": "536.0",
+        "Status": "PASSED",
+        "Rank": 92
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwODY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RUBI",
+        "Father's Name": "RAMESH KUMAR",
+        "Roll No": "23040100420086",
+        "Marks": "536.0",
+        "Status": "ATKT",
+        "Rank": 93
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMTk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NANDAN SHRIVASTAV",
+        "Father's Name": "JAY PRAKASH SHRIVASTAV",
+        "Roll No": "23040100420019",
+        "Marks": "535.0",
+        "Status": "PASSED",
+        "Rank": 94
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxOTc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RIYA MISHRA",
+        "Father's Name": "SURENDRA KUMAR MISHRA",
+        "Roll No": "23040100420197",
+        "Marks": "535.0",
+        "Status": "PASSED",
+        "Rank": 95
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "RISHABH YADAV",
+        "Father's Name": "JASWANT YADAV",
+        "Roll No": "23040100420032",
+        "Marks": "534.0",
+        "Status": "PASSED",
+        "Rank": 96
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMjY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PRANJUL SINGH",
+        "Father's Name": "SANTOSH KUMAR SINGH",
+        "Roll No": "23040100420026",
+        "Marks": "533.0",
+        "Status": "PASSED WITH GRACE",
+        "Rank": 97
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxODY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANJALI TIWARI",
+        "Father's Name": "RAKESH TIWARI",
+        "Roll No": "23040100420186",
+        "Marks": "533.0",
+        "Status": "PASSED",
+        "Rank": 98
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMzY=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHUBHAM YADAV",
+        "Father's Name": "LATE RAM MAHESH YADAV",
+        "Roll No": "23040100420036",
+        "Marks": "532.0",
+        "Status": "PASSED",
+        "Rank": 99
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNjA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "JAINAB BANO",
+        "Father's Name": "RASEED",
+        "Roll No": "23040100420060",
+        "Marks": "530.0",
+        "Status": "ATKT",
+        "Rank": 100
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNDA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "VIVEK KUMAR",
+        "Father's Name": "RAM PRASAD",
+        "Roll No": "23040100420040",
+        "Marks": "529.0",
+        "Status": "PASSED",
+        "Rank": 101
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNzU=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "PRATIMA GAUTAM",
+        "Father's Name": "OM PRAKASH GAUTAM",
+        "Roll No": "23040100420075",
+        "Marks": "526.0",
+        "Status": "PASSED",
+        "Rank": 102
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxODI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHUBHANSH SHUKLA",
+        "Father's Name": "SANJAY SHUKLA",
+        "Roll No": "23040100420182",
+        "Marks": "526.0",
+        "Status": "PASSED",
+        "Rank": 103
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNzA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NEHA",
+        "Father's Name": "RAMAKANT",
+        "Roll No": "23040100420070",
+        "Marks": "524.0",
+        "Status": "ATKT",
+        "Rank": 104
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxODc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANUSHKA AGRAHARI",
+        "Father's Name": "VIRENDRA KUMAR AGRAHARI",
+        "Roll No": "23040100420187",
+        "Marks": "524.0",
+        "Status": "PASSED",
+        "Rank": 105
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMDk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANTESH AGRAHARI",
+        "Father's Name": "RAM SURAT AGRAHARI",
+        "Roll No": "23040100420009",
+        "Marks": "523.0",
+        "Status": "ATKT",
+        "Rank": 106
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwNDc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ANJALI",
+        "Father's Name": "UMA SHANKAR",
+        "Roll No": "23040100420047",
+        "Marks": "522.0",
+        "Status": "PASSED",
+        "Rank": 107
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxNzk=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SAMARTH SINGH",
+        "Father's Name": "SATYA PRAKASH SINGH",
+        "Roll No": "23040100420179",
+        "Marks": "522.0",
+        "Status": "PASSED",
+        "Rank": 108
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxOTM=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "NANDANI RAW",
+        "Father's Name": "RAM SHIROMANI",
+        "Roll No": "23040100420193",
+        "Marks": "522.0",
+        "Status": "PASSED WITH GRACE",
+        "Rank": 109
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxOTE=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "KAJAL",
+        "Father's Name": "RAJARAM PRAJAPATI",
+        "Roll No": "23040100420191",
+        "Marks": "521.0",
+        "Status": "ATKT",
+        "Rank": 110
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMTg=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "MOHIT MISHRA",
+        "Father's Name": "RAJ KUMAR",
+        "Roll No": "23040100420018",
+        "Marks": "504.0",
+        "Status": "ATKT",
+        "Rank": 111
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMTI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "DEEPAK YADAV",
+        "Father's Name": "JHOOREE YADAV",
+        "Roll No": "23040100420012",
+        "Marks": "500.0",
+        "Status": "PASSED",
+        "Rank": 112
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAxOTA=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "JYOTI KUMARI",
+        "Father's Name": "RAM SAHAY",
+        "Roll No": "23040100420190",
+        "Marks": "497.0",
+        "Status": "ATKT",
+        "Rank": 113
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwOTc=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "SHIVANGI SINGH",
+        "Father's Name": "AKHAND PRATAP SINGH",
+        "Roll No": "23040100420097",
+        "Marks": "485.0",
+        "Status": "ATKT",
+        "Rank": 114
+    },
+    {
+        "URL": "https://result25.rmlauexams.in/Marks_Sheet/UG_NEPIV/print.aspx?Roll_no=MjMwNDAxMDA0MjAwMDI=&Col=MDQy&Class=QkFDSEVMT1IgT0YgU0NJRU5DRSAoQi5TYy4p",
+        "Student Name": "ADARSH KUMAR PANDEY",
+        "Father's Name": "KAUSHALENDRA PANDEY",
+        "Roll No": "23040100420002",
+        "Marks": "469.0",
+        "Status": "ATKT",
+        "Rank": 115
+    }
+]; // Injected from Python
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const resultsBody = document.getElementById('resultsBody');
+            const summaryDiv = document.getElementById('summary');
+            const loader = document.getElementById('loader');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const noResultsP = document.getElementById('noResults');
+            // Modal related elements are no longer needed
+
+            function renderTable(data) {
+                resultsBody.innerHTML = '';
+                if (data.length === 0) {
+                    resultsContainer.classList.add('hidden');
+                    noResultsP.classList.remove('hidden');
+                    return;
+                }
+
+                resultsContainer.classList.remove('hidden');
+                noResultsP.classList.add('hidden');
+
+                data.forEach(student => {
+                    let statusColor = 'text-gray-400';
+                    if (student.Status.toUpperCase() === 'PASSED') {
+                        statusColor = 'text-green-400';
+                    } else if (student.Status.toUpperCase() === 'FAIL' || student.Status.toUpperCase() === 'INC') {
+                        statusColor = 'text-red-400';
+                    }
+                    
+                    const row = `
+                        <tr class="table-row border-b border-gray-700">
+                            <td class="px-6 py-4 font-medium text-white">${student.Rank}</td>
+                            <td class="px-6 py-4 font-medium text-white">${student['Roll No']}</td>
+                            <td class="px-6 py-4">${student['Student Name']}</td>
+                            <td class="px-6 py-4">${student['Father\'s Name']}</td>
+                            <td class="px-6 py-4 font-semibold ${statusColor}">${student.Status}</td>
+                            <td class="px-6 py-4">${student.Marks}</td>
+                            <td class="px-6 py-4 text-center">
+                                <a href="${student.URL}" target="_blank" class="font-medium text-blue-500 hover:underline">Result</a>
+                            </td>
+                        </tr>
+                    `;
+                    resultsBody.innerHTML += row;
+                });
+            }
+
+            function renderSummary(data) {
+                const totalStudents = data.length;
+                const passedStudents = data.filter(s => s.Status.toUpperCase() === 'PASSED').length;
+                const passPercentage = totalStudents > 0 ? ((passedStudents / totalStudents) * 100).toFixed(2) : 0;
+                summaryDiv.innerHTML = `
+                    <span>Total: <b class="text-white">${totalStudents}</b></span>
+                    <span>Passed: <b class="text-green-400">${passedStudents}</b></span>
+                    <span>Pass %: <b class="text-blue-400">${passPercentage}%</b></span>
+                `;
+            }
+
+            function loadData() {
+                loader.classList.add('hidden');
+                resultsContainer.classList.remove('hidden');
+
+                renderTable(allResults);
+                renderSummary(allResults);
+            }
+
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredResults = allResults.filter(student =>
+                    student['Student Name'].toLowerCase().includes(searchTerm) ||
+                    student['Roll No'].includes(searchTerm)
+                );
+                renderTable(filteredResults);
+            });
+
+            loadData(); // Call loadData directly on DOMContentLoaded
+        });
+    </script>
+</body>
+</html>
