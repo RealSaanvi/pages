@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head><meta content="width=1200" name="viewport"/>
+<head>
 <!-- Required meta tags -->
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
@@ -26,115 +26,191 @@
 		  printButton.parentNode.removeChild(printButton);
 		}
     </script>
-
 <style>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    
+    /* General body and container styling for a peaceful look */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #F8F9FA;
+        color: #333;
+        padding: 20px;
+    }
+    .result-enhanced {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        position: relative;
+    }
+    
+    /* Print button styling */
+    .print-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        font-weight: 600;
+    }
+    .print-button:hover {
+        background-color: #0056b3;
+        box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+        transform: translateY(-2px);
+    }
+
+    /* Header and 'Made By' section */
+    .header-made-by {
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #6c757d;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .made-by-text {
+        font-size: 1.1rem;
+        color: #212529;
+        font-weight: 600;
+        margin-right: 10px;
+    }
+    .whatsapp-icon {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+
+    .main-heading {
+        text-align: center;
+        font-size: 2rem !important;
+        font-weight: 700;
+        color: #1A5276;
+        margin-bottom: 5px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    .sub-heading {
+        text-align: center;
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 20px;
+    }
+    
+    /* Enhanced table styling */
+    table {
+        border-collapse: collapse;
+        margin-top: 20px;
+        text-align: center !important;
+    }
+    
+    table.table {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    /* Common cell styling */
+    table th, table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #E0E0E0;
+    }
+    
+    /* Header and footer row styles */
+    table th {
+        background-color: #D6EAF8;
+        color: #1A5276;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-align: center !important;
+    }
+    
+    /* Subtle hover effect */
+    table tr:hover {
+        background-color: #F0F4F7;
+        transition: background-color 0.3s ease;
+    }
+    
+    /* Alternate row colors for better readability */
+    table tr:nth-child(even) {
+        background-color: #F9FCFF;
+    }
+
+    /* Image container */
+    .photo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .photo-container img {
+        border: 3px solid #AED6F1;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: auto;
+    }
+    
+    /* Disclaimer and other text */
+    .disclaimer {
+        text-align: center;
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 20px;
+    }
+    
+    @media (max-width: 768px) {
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #F8F9FA;
-            color: #333;
-            padding: 20px;
-            overflow-x: auto; /* allow scroll if smaller screen */
-        }
-
-        /* Force desktop width on mobiles */
-        @viewport { width: 1200px; }
-        @-ms-viewport { width: 1200px; }
-        @-o-viewport { width: 1200px; }
-        @-moz-viewport { width: 1200px; }
-        @-webkit-viewport { width: 1200px; }
-
-        .result-enhanced {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-        }
-
-        /* Photo + signature */
-        .photo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            margin-top: 10px;
-        }
-        .photo-container img {
-            border: 2px solid #AED6F1;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            max-width: 120px;
-            height: auto;
-        }
-
-        /* Table */
-        table {
-            border-collapse: collapse;
-            margin-top: 20px;
-            width: 1000px; /* keep desktop width */
-            text-align: center;
-        }
-        table th, table td {
             padding: 10px;
-            border-bottom: 1px solid #E0E0E0;
         }
-        table th {
-            background-color: #D6EAF8;
-            color: #1A5276;
-            font-weight: 600;
+        .result-enhanced {
+            padding: 20px;
+            margin: 20px auto;
         }
-        table tr:nth-child(even) {
-            background-color: #F9FCFF;
+        .main-heading {
+            font-size: 1.5rem !important;
         }
-
-        /* Print button */
-        .print-button { 
-            background: #007bff; 
-            color: #fff; 
-            border: none; 
-            padding: 8px 16px; 
-            border-radius: 8px;
-            margin: 10px 0;
-            cursor: pointer;
+        .sub-heading {
+            font-size: 0.9rem;
         }
-
-        /* Hide button & fit to one A4 page */
-        @media print {
-            .print-button { display: none !important; }
-            @page { size: A4; margin: 10mm; }
-            .result-enhanced { box-shadow: none; border-radius: 0; }
-        }
-    </style>
-</head>
-<body class="w-100 m-auto" id="main">
-<div style="text-align:center; margin-bottom:10px;">
-<span style="font-weight:600; color:#212529;">Made By SWT-1</span>
+    }
+</style>
+</style></head>
+<body class="w-100 m-auto" id="main"><div class="header-made-by">
+<span class="made-by-text">Made By SWT-1</span>
 <a href="https://wa.me/919838225780?text=Hi%20SWT-1" target="_blank">
-<img alt="WhatsApp" src="https://img.icons8.com/color/48/whatsapp--v1.png" style="width:22px; height:22px; margin-left:6px;"/>
+<img alt="WhatsApp Icon" class="whatsapp-icon" src="https://ouch-prod-var-cdn.icons8.com/dj/illustrations/previews/V9v8ZSeJ-e1XyzdZ.webp"/>
 </a>
 </div>
-
 <div style="text-align:center">
-<button class="print-button" id="printButton" onclick="printAndRemoveButton()">Print</button>
+<button class="btn btn-danger btn-sm text-center print-button" id="printButton" onclick="printAndRemoveButton()">Print</button>
 </div>
 <!-- <div class="" style="display:flex ; justify-content: center ;">
       <button class="btn btn-secondary btn-print" style="width: 5%;" onclick="print()">Print</button>
     </div>-->
-<img alt="overlay image" id="overlays" src="images/kni_logo.png" style=" z-index:-2;opacity:0.0;position: absolute;top: 50%;left: 50%;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%); width:30%;"/>
-<img alt="overlay image" id="overlays1" src="images/logo_bg.png" style=" z-index:0;opacity:0.15;position: absolute;top: 40%;left: 50%;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%); width:30%; "/>
+
+
 <div style="">
-<div class="result-enhanced"><div class="container-fluid">
-<table style="margin:0px;" width="100%">
-<div class="watermark">Internet Copy</div>
+<div class_="result-enhanced"><div class="container-fluid">
+<table class="table" style="margin:0px;" width="100%">
+
 <tr>
-<th rowspan="2" width="12%"><div class="photo-container"><img alt="logo" class="img-fluid d-block m-auto" src="https://rvsmusk.github.io/KNI/photo/23040010002.jpg" style="padding:15px; height:65px; width:65px; "> </img><img src="https://rvsmusk.github.io/KNI/signature/23040010002.jpg"/></div></th>
+<th rowspan="2" width="12%"><img alt="logo" class="img-fluid d-block m-auto" src="https://i.ibb.co/Y7vVw467/image.png" style="padding:15px; height:65px; width:65px; "> </img></th>
 <th width="88%">
 <h4 class="" style="text-align: center; margin:0px; "><span class="head-name" style="font-size:17px;white-space:nowrap;"><b>Kamla Nehru Institute Of Physical &amp; Social Sciences,Sultanpur, Uttar Pradesh</b></span> <br/>An Autonomous Institute And Accredited "A" Grade by NAAC<br/><span style="font-size:14px;">(Affiliated to Dr. Rammanohar Lohia Avadh University, Ayodhya U.P.)</span></h4>
 </th>
 </tr>
 </table>
-<table class="table table-borderless" width="100%">
+<table class="table table-borderless table" width="100%">
 <tr>
 <th class="text-center" colspan="5"><span style="font-size:12px;">PROVISIONAL MARKSHEET<br/>2024-2025</span></th>
 </tr>
@@ -143,8 +219,7 @@
 <th class="look" width="25%">:	AANSHI  	</th>
 <th class="look" width="15%">Student Type</th>
 <th class="look" width="25%">: <span style="font-size:15px;">Regular</span></th>
-<th rowspan="5" width="20%">
-<img height="100" src="student_admission_images/2023/09/photo/9617.png"/></th>
+<th rowspan="5" style="text-align: center; vertical-align: middle;" width="20%"><div class_="photo-container"><img height="100" src="https://rvsmusk.github.io/KNI/photo/23040010002.jpg"/><img height="50" src="https://rvsmusk.github.io/KNI/signature/23040010002.jpg"/></div></th>
 </tr>
 <tr>
 <th class="look">Father's Name</th>
@@ -165,7 +240,7 @@
 <th class="look">: KNI20232777</th>
 </tr>
 </table>
-<table class="table text-center" style="border:1px solid black; ">
+<table class="table text-center table" style="border:1px solid black; ">
 <tr style="border:1px solid black; ">
 <th class="abc" width="18%">SUBJECT</th>
 <th class="abc" width="15%">PAPER CODE</th>
@@ -267,7 +342,7 @@
 <td>NC</td>
 </tr>
 </tr></table>
-<table class="table text-center" style="border:1px solid black; " width="100%">
+<table class="table text-center table" style="border:1px solid black; " width="100%">
 <tr>
 <th colspan="9"> SEMESTER RESULT</th>
 </tr>
@@ -334,7 +409,7 @@
 <td><center>PASSED</center></td>
 </tr>
 </table>
-<table class="table" style="border:1px solid black; " width="100%">
+<table class="table table" style="border:1px solid black; " width="100%">
 <tr>
 <th class="text-center" colspan="3">DETAILS OF BACKLOG PAPER</th>
 </tr>
@@ -377,7 +452,7 @@
 <td colspan="3">NC = NON CREDITED , NA = NOT APPLICABLE , ATKT = ALLOWED TO KEEP TERM, # = PASSED WITH GRACE</td>
 </tr>
 </table>
-<table class="text-center" width="100%">
+<table class="text-center table" width="100%">
 <tr>
 <td colspan="12" style="text-align:center;font-size:1.7rem;font-weight:bold;padding:1rem;">
 						GRADING AND PASSING RULES UNDER CHOICE BASED CREDIT SYSTEM (CBCS)
@@ -426,7 +501,7 @@
 <td>NOT QUALIFIED</td>
 </tr>
 </table>
-<table width="100%">
+<table class="table" width="100%">
 <tr>
 <td colspan="3" style="text-align:center;font-size:1.2rem;font-weight:bold;">SGPA &amp; CGPA has been calculated according to the following formula</td>
 </tr>
