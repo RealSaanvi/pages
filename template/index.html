@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Viewer | mnoPDF</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: #f9fafb;
+      color: #111;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1e40af;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #1e3a8a;
+      margin-top: 0;
+    }
+    p {
+      line-height: 1.6;
+      font-size: 1rem;
+      color: #444;
+    }
+    .tags {
+      margin: 15px 0;
+    }
+    .tag {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #1e40af;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-right: 6px;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    .btn {
+      display: inline-block;
+      margin-right: 10px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .view {
+      background: #2563eb;
+      color: white;
+    }
+    .view:hover {
+      background: #1d4ed8;
+    }
+    .download {
+      background: #16a34a;
+      color: white;
+    }
+    .download:hover {
+      background: #15803d;
+    }
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      background: #f1f5f9;
+      text-align: center;
+      color: #555;
+      font-size: 0.9rem;
+    }
+    .banner {
+      margin: 30px 0;
+      background: #fef9c3;
+      color: #78350f;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <header>📚 RMLAU Previous Year Papers</header>
+
+  <div class="container">
+    <div class="banner">
+      <!-- 🔸 You can replace this area with any AdSense or banner HTML -->
+      <p>🔥 Study smarter! Get instant access to 1000+ RMLAU Papers here.</p>
+    </div>
+
+    <h1 id="title">Loading...</h1>
+    <div class="tags" id="tags"></div>
+    <p id="description"></p>
+
+    <div class="buttons">
+      <a id="viewBtn" class="btn view" target="_blank">📖 View PDF</a>
+      <a id="downloadBtn" class="btn download" target="_blank">⬇️ Download PDF</a>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 mnoPDF — All Rights Reserved.
+  </footer>
+
+  <script>
+    // Get ?file=filename.json from URL
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file');
+
+    if (!file) {
+      document.getElementById('title').textContent = "No PDF selected";
+      document.getElementById('description').textContent = "Please provide a ?file=filename.json in URL.";
+    } else {
+      fetch(`data/${file}`)
+        .then(res => res.json())
+        .then(data => {
+          document.title = data.youtube_title;
+          document.getElementById('title').textContent = data.youtube_title;
+          document.getElementById('description').innerText = data.youtube_description;
+
+          // Tags
+          const tagsDiv = document.getElementById('tags');
+          data.youtube_tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.className = 'tag';
+            span.textContent = tag;
+            tagsDiv.appendChild(span);
+          });
+
+          // Buttons
+          document.getElementById('viewBtn').href = data["View pdf"];
+          document.getElementById('downloadBtn').href = data["Download Pdf"];
+        })
+        .catch(err => {
+          document.getElementById('title').textContent = "Error loading file";
+          document.getElementById('description').textContent = "Could not fetch the JSON data.";
+          console.error(err);
+        });
+    }
+  </script>
+</body>
+</html>
