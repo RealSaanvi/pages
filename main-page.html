@@ -78,11 +78,11 @@
     /* Animated Gradient Header */
     .header-section {
       background: var(--primary-gradient);
-      padding: 40px 20px;
+      padding: 30px 20px 20px; /* Downgraded top spacing */
       text-align: center;
       position: relative;
       overflow: hidden;
-      margin-bottom: 30px;
+      margin-bottom: 20px; /* Reduced margin */
       border-radius: 0 0 var(--radius-lg) var(--radius-lg);
       box-shadow: var(--shadow-lg);
     }
@@ -171,6 +171,9 @@
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
+      display: flex; 
+      justify-content: center;
+      align-items: center;
     }
     
     .folder-buttons button::before {
@@ -279,6 +282,9 @@
       cursor: pointer;
       transition: var(--transition);
       font-weight: 500;
+      display: flex; 
+      justify-content: center;
+      align-items: center;
     }
     
     .subfilters button:hover {
@@ -292,6 +298,45 @@
       color: white;
       border-color: transparent;
       box-shadow: var(--shadow-sm);
+    }
+
+    /* UPDATED: Simple More Button Styles - use existing subfilters button style */
+    .filter-more-btn {
+      /* Reuses styles from .subfilters button */
+      background: var(--bg-light) !important;
+      color: var(--text-primary) !important;
+      border: 2px solid #e0e0e0 !important;
+      font-weight: 600 !important;
+      padding: 8px 16px !important;
+      min-width: auto !important;
+      flex: 0 0 auto !important; /* Allow it to be same size as filters */
+    }
+    
+    .filter-more-btn:hover {
+        background: #e5e7eb !important;
+        transform: translateY(-2px) !important;
+        box-shadow: var(--shadow-sm) !important;
+    }
+    
+    /* Folder More Button (for L1 index, still wide but uses simpler color) */
+    .folder-more-btn {
+      flex: 1 1 100%;
+      min-width: 100%;
+      max-width: none !important;
+      padding: 10px 20px !important;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%) !important;
+      color: var(--text-primary) !important;
+      border: 1px solid #d1d5db !important;
+      font-weight: 700 !important;
+      font-size: 0.95rem !important;
+      margin-top: 5px;
+      box-shadow: none !important;
+    }
+
+    .folder-more-btn:hover {
+        background: #e5e7eb !important;
+        transform: translateY(-1px) !important;
+        box-shadow: var(--shadow-sm) !important;
     }
     
     .clear-filter-btn {
@@ -431,6 +476,113 @@
       box-shadow: 0 12px 40px rgba(0,0,0,0.25);
     }
     
+    /* NEW: Share Button (Bottom Right) */
+    #shareBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px; /* Position on the bottom right */
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--secondary-gradient); /* Use a distinct color/gradient */
+      color: white;
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+      display: flex; /* Always show, will be hidden/shown by JS if needed */
+      justify-content: center;
+      align-items: center;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      transition: var(--transition);
+      animation: fadeInUp 0.3s ease;
+    }
+    
+    #shareBtn:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    }
+
+    /* NEW: Share Modal/Popup Styles */
+    .share-modal {
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 30px;
+        border-radius: var(--radius-lg);
+        max-width: 450px;
+        box-shadow: var(--shadow-lg);
+        animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn {
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-content h3 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .share-textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: var(--radius-sm);
+        height: 100px;
+        resize: none;
+        font-family: monospace;
+        background-color: var(--bg-light);
+    }
+    
+    .modal-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+    }
+
+    .modal-actions button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .copy-btn {
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .whatsapp-btn {
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        color: white;
+    }
+    
+    .modal-actions button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+    
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -449,7 +601,7 @@
       }
       
       .header-section {
-        padding: 30px 15px;
+        padding: 30px 15px 20px;
         margin-bottom: 20px;
       }
       
@@ -496,6 +648,14 @@
         font-size: 1.3rem;
       }
       
+      #shareBtn {
+        width: 45px;
+        height: 45px;
+        bottom: 15px;
+        right: 15px;
+        font-size: 1.3rem;
+      }
+      
       .subfilters {
         padding: 15px;
         gap: 6px;
@@ -533,8 +693,8 @@
 <div class="main-container">
 
 <div class="folder-buttons">
-<button onclick="showFolder('BCA', this)" class="folder-btn active">BCA</button>
-<button onclick="showFolder('BCOM', this)" class="folder-btn">BCOM</button>
+<button onclick="showFolder('bca', this)" class="folder-btn active" data-toggle-group="l2-folders">BCA</button>
+<button onclick="showFolder('bcom', this)" class="folder-btn" data-toggle-group="l2-folders">BCOM</button>
 
 </div>
 <div class="search-filter">
@@ -546,7 +706,7 @@
 
 <h2 id="selectedTitle"></h2>
 <div class="subfilters" id="dynamicFilters"></div>
-<div class="folder-section" id="BCA" style="display:block;">
+<div class="folder-section" id="bca" style="display:block;">
 
     <div class="paper-card" 
          data-sem="1-sem" 
@@ -555,9 +715,7 @@
          data-title="BCA 1 SEM BASIC MATHEMATICS 2013">
       <div class="paper-title">BCA 1 SEM BASIC MATHEMATICS 2013</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-basic-mathematics-2013.pdf', '_blank')">👀 View Paper</button>
@@ -572,9 +730,7 @@
          data-title="BCA 1 SEM BASIC MATHEMATICS 2014">
       <div class="paper-title">BCA 1 SEM BASIC MATHEMATICS 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-basic-mathematics-2014.pdf', '_blank')">👀 View Paper</button>
@@ -590,8 +746,7 @@
       <div class="paper-title">BCA 1 SEM BASIC MATHEMATICS 303102 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-basic-mathematics-303102-2017.pdf', '_blank')">👀 View Paper</button>
@@ -607,8 +762,7 @@
       <div class="paper-title">BCA 1 SEM BASIC MATHEMATICS 303102 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-basic-mathematics-303102-2018.pdf', '_blank')">👀 View Paper</button>
@@ -624,8 +778,7 @@
       <div class="paper-title">BCA 1 SEM BASIC MATHEMATICS 303102 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-basic-mathematics-303102-2021.pdf', '_blank')">👀 View Paper</button>
@@ -641,8 +794,7 @@
       <div class="paper-title">BCA 1 SEM BASIC MATHEMATICS 303102 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-basic-mathematics-303102-2023.pdf', '_blank')">👀 View Paper</button>
@@ -658,8 +810,7 @@
       <div class="paper-title">BCA 1 SEM BASIC MATHEMATICS 303102 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-basic-mathematics-303102-2024.pdf', '_blank')">👀 View Paper</button>
@@ -674,9 +825,7 @@
          data-title="BCA 1 SEM COMMUNICATION ENGLISH 2014">
       <div class="paper-title">BCA 1 SEM COMMUNICATION ENGLISH 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-communication-english-2014.pdf', '_blank')">👀 View Paper</button>
@@ -691,9 +840,7 @@
          data-title="BCA 1 SEM COMMUNICATIVE ENGLISH 2013">
       <div class="paper-title">BCA 1 SEM COMMUNICATIVE ENGLISH 2013</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-communicative-english-2013.pdf', '_blank')">👀 View Paper</button>
@@ -709,8 +856,7 @@
       <div class="paper-title">BCA 1 SEM COMMUNICATIVE ENGLISH 303101 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-communicative-english-303101-2017.pdf', '_blank')">👀 View Paper</button>
@@ -726,8 +872,7 @@
       <div class="paper-title">BCA 1 SEM COMMUNICATIVE ENGLISH 303101 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-communicative-english-303101-2018.pdf', '_blank')">👀 View Paper</button>
@@ -743,8 +888,7 @@
       <div class="paper-title">BCA 1 SEM COMMUNICATIVE ENGLISH 303101 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-communicative-english-303101-2019.pdf', '_blank')">👀 View Paper</button>
@@ -760,8 +904,7 @@
       <div class="paper-title">BCA 1 SEM COMMUNICATIVE ENGLISH 303101 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-communicative-english-303101-2021.pdf', '_blank')">👀 View Paper</button>
@@ -777,8 +920,7 @@
       <div class="paper-title">BCA 1 SEM COMMUNICATIVE ENGLISH 303101 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-communicative-english-303101-2022.pdf', '_blank')">👀 View Paper</button>
@@ -793,9 +935,7 @@
          data-title="BCA 1 SEM IMFORMATION TECHNOLOGY AND APPLICATION 303103 2013">
       <div class="paper-title">BCA 1 SEM IMFORMATION TECHNOLOGY AND APPLICATION 303103 2013</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-imformation-technology-and-application-303103-2013.pdf', '_blank')">👀 View Paper</button>
@@ -810,9 +950,7 @@
          data-title="BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATION 2014">
       <div class="paper-title">BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATION 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-information-technology-and-application-2014.pdf', '_blank')">👀 View Paper</button>
@@ -828,8 +966,7 @@
       <div class="paper-title">BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATION 303103 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-information-technology-and-application-303103-2017.pdf', '_blank')">👀 View Paper</button>
@@ -845,8 +982,7 @@
       <div class="paper-title">BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATION 303103 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-information-technology-and-application-303103-2018.pdf', '_blank')">👀 View Paper</button>
@@ -862,8 +998,7 @@
       <div class="paper-title">BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATION 303103 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-information-technology-and-application-303103-2019.pdf', '_blank')">👀 View Paper</button>
@@ -879,8 +1014,7 @@
       <div class="paper-title">BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATION 303103 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-information-technology-and-application-303103-2021.pdf', '_blank')">👀 View Paper</button>
@@ -896,8 +1030,7 @@
       <div class="paper-title">BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATION 303103 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-information-technology-and-application-303103-2022.pdf', '_blank')">👀 View Paper</button>
@@ -913,8 +1046,7 @@
       <div class="paper-title">BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATION 303103 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-information-technology-and-application-303103-2023.pdf', '_blank')">👀 View Paper</button>
@@ -930,8 +1062,7 @@
       <div class="paper-title">BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATIONS 303103 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-information-technology-and-applications-303103-2015.pdf', '_blank')">👀 View Paper</button>
@@ -947,8 +1078,7 @@
       <div class="paper-title">BCA 1 SEM INFORMATION TECHNOLOGY AND APPLICATIONS 303103 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-information-technology-and-applications-303103-2016.pdf', '_blank')">👀 View Paper</button>
@@ -963,9 +1093,7 @@
          data-title="BCA 1 SEM PRINCIPLE OF MANAGEMENT AND ORGANIZATION 2014">
       <div class="paper-title">BCA 1 SEM PRINCIPLE OF MANAGEMENT AND ORGANIZATION 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-principle-of-management-and-organization-2014.pdf', '_blank')">👀 View Paper</button>
@@ -980,9 +1108,7 @@
          data-title="BCA 1 SEM PRINCIPLES OF MANAGEMENT AND ORGANIZATION 2013">
       <div class="paper-title">BCA 1 SEM PRINCIPLES OF MANAGEMENT AND ORGANIZATION 2013</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-principles-of-management-and-organization-2013.pdf', '_blank')">👀 View Paper</button>
@@ -998,8 +1124,7 @@
       <div class="paper-title">BCA 1 SEM PRINCIPLES OF MANAGEMENT AND ORGANIZATION 303104 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-principles-of-management-and-organization-303104-2017.pdf', '_blank')">👀 View Paper</button>
@@ -1015,8 +1140,7 @@
       <div class="paper-title">BCA 1 SEM PRINCIPLES OF MANAGEMENT AND ORGANIZATION 303104 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-principles-of-management-and-organization-303104-2018.pdf', '_blank')">👀 View Paper</button>
@@ -1032,8 +1156,7 @@
       <div class="paper-title">BCA 1 SEM PRINCIPLES OF MANAGEMENT AND ORGANIZATION 303104 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-principles-of-management-and-organization-303104-2019.pdf', '_blank')">👀 View Paper</button>
@@ -1049,8 +1172,7 @@
       <div class="paper-title">BCA 1 SEM PRINCIPLES OF MANAGEMENT AND ORGANIZATION 303104 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-principles-of-management-and-organization-303104-2021.pdf', '_blank')">👀 View Paper</button>
@@ -1066,8 +1188,7 @@
       <div class="paper-title">BCA 1 SEM PRINCIPLES OF MANAGEMENT AND ORGANIZATION 303104 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-principles-of-management-and-organization-303104-2022.pdf', '_blank')">👀 View Paper</button>
@@ -1083,8 +1204,7 @@
       <div class="paper-title">BCA 1 SEM PRINCIPLES OF MANAGEMENT AND ORGANIZATION 303104 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-principles-of-management-and-organization-303104-2023.pdf', '_blank')">👀 View Paper</button>
@@ -1099,9 +1219,7 @@
          data-title="BCA 1 SEM PROBLEM SOLVING AND PROGRAMMING CONCEPT 2014">
       <div class="paper-title">BCA 1 SEM PROBLEM SOLVING AND PROGRAMMING CONCEPT 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-problem-solving-and-programming-concept-2014.pdf', '_blank')">👀 View Paper</button>
@@ -1117,8 +1235,7 @@
       <div class="paper-title">BCA 1 SEM PROBLEM SOLVING AND PROGRAMMING CONCEPTS 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-problem-solving-and-programming-concepts-2015.pdf', '_blank')">👀 View Paper</button>
@@ -1134,8 +1251,7 @@
       <div class="paper-title">BCA 1 SEM PROBLEM SOLVING AND PROGRAMMING CONCEPTS 303106 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-problem-solving-and-programming-concepts-303106-2017.pdf', '_blank')">👀 View Paper</button>
@@ -1151,8 +1267,7 @@
       <div class="paper-title">BCA 1 SEM PROBLEM SOLVING AND PROGRAMMING CONCEPTS 303106 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-problem-solving-and-programming-concepts-303106-2022.pdf', '_blank')">👀 View Paper</button>
@@ -1168,8 +1283,7 @@
       <div class="paper-title">BCA 1 SEM PROBLEM SOLVING AND PROGRAMMING CONCEPTS 303106 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-problem-solving-and-programming-concepts-303106-2023.pdf', '_blank')">👀 View Paper</button>
@@ -1184,9 +1298,7 @@
          data-title="BCA 1 SEM PYTHON PROGRAMMING 2013">
       <div class="paper-title">BCA 1 SEM PYTHON PROGRAMMING 2013</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-python-programming-2013.pdf', '_blank')">👀 View Paper</button>
@@ -1202,8 +1314,7 @@
       <div class="paper-title">BCA 1 SEM PYTHON PROGRAMMING 303105 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-python-programming-303105-2018.pdf', '_blank')">👀 View Paper</button>
@@ -1219,8 +1330,7 @@
       <div class="paper-title">BCA 1 SEM PYTHON PROGRAMMING 303105 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-python-programming-303105-2019.pdf', '_blank')">👀 View Paper</button>
@@ -1236,8 +1346,7 @@
       <div class="paper-title">BCA 1 SEM PYTHON PROGRAMMING 303105 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-1-sem-python-programming-303105-2021.pdf', '_blank')">👀 View Paper</button>
@@ -1253,8 +1362,7 @@
       <div class="paper-title">BCA 2 SEM BUSINESS COMMUNICATION 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-business-communication-2015.pdf', '_blank')">👀 View Paper</button>
@@ -1269,9 +1377,7 @@
          data-title="BCA 2 SEM BUSINESS ENGLISH 2014">
       <div class="paper-title">BCA 2 SEM BUSINESS ENGLISH 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-business-english-2014.pdf', '_blank')">👀 View Paper</button>
@@ -1287,8 +1393,7 @@
       <div class="paper-title">BCA 2 SEM BUSINESS ENGLISH 303201 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-business-english-303201-2017.pdf', '_blank')">👀 View Paper</button>
@@ -1304,8 +1409,7 @@
       <div class="paper-title">BCA 2 SEM BUSINESS ENGLISH 303201 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-business-english-303201-2018.pdf', '_blank')">👀 View Paper</button>
@@ -1321,8 +1425,7 @@
       <div class="paper-title">BCA 2 SEM BUSINESS ENGLISH 303201 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-business-english-303201-2019.pdf', '_blank')">👀 View Paper</button>
@@ -1338,8 +1441,7 @@
       <div class="paper-title">BCA 2 SEM BUSINESS ENGLISH 303201 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-business-english-303201-2021.pdf', '_blank')">👀 View Paper</button>
@@ -1355,8 +1457,7 @@
       <div class="paper-title">BCA 2 SEM BUSINESS ENGLISH 303201 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-business-english-303201-2022.pdf', '_blank')">👀 View Paper</button>
@@ -1372,8 +1473,7 @@
       <div class="paper-title">BCA 2 SEM BUSINESS ENGLISH 303201 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-business-english-303201-2023.pdf', '_blank')">👀 View Paper</button>
@@ -1389,8 +1489,7 @@
       <div class="paper-title">BCA 2 SEM MATHEMATICS 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-mathematics-2015.pdf', '_blank')">👀 View Paper</button>
@@ -1406,8 +1505,7 @@
       <div class="paper-title">BCA 2 SEM MATHEMATICS 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-mathematics-2016.pdf', '_blank')">👀 View Paper</button>
@@ -1423,8 +1521,7 @@
       <div class="paper-title">BCA 2 SEM MATHEMATICS NUMERICAL TECHNIQUE 303202 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-mathematics-numerical-technique-303202-2019.pdf', '_blank')">👀 View Paper</button>
@@ -1439,9 +1536,7 @@
          data-title="BCA 2 SEM MATHEMATICS NUMERICAL TECHNIQUES 2014">
       <div class="paper-title">BCA 2 SEM MATHEMATICS NUMERICAL TECHNIQUES 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-mathematics-numerical-techniques-2014.pdf', '_blank')">👀 View Paper</button>
@@ -1457,8 +1552,7 @@
       <div class="paper-title">BCA 2 SEM MATHEMATICS NUMERICAL TECHNIQUES 303202 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-mathematics-numerical-techniques-303202-2017.pdf', '_blank')">👀 View Paper</button>
@@ -1474,8 +1568,7 @@
       <div class="paper-title">BCA 2 SEM MATHEMATICS NUMERICAL TECHNIQUES 303202 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-mathematics-numerical-techniques-303202-2018.pdf', '_blank')">👀 View Paper</button>
@@ -1491,8 +1584,7 @@
       <div class="paper-title">BCA 2 SEM MATHEMATICS NUMERICAL TECHNIQUES 303202 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-mathematics-numerical-techniques-303202-2021.pdf', '_blank')">👀 View Paper</button>
@@ -1508,8 +1600,7 @@
       <div class="paper-title">BCA 2 SEM MATHEMATICS NUMERICAL TECHNIQUES 303202 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-mathematics-numerical-techniques-303202-2022.pdf', '_blank')">👀 View Paper</button>
@@ -1525,8 +1616,7 @@
       <div class="paper-title">BCA 2 SEM MATHEMATICS NUMERICAL TECHNIQUES 303202 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-mathematics-numerical-techniques-303202-2023.pdf', '_blank')">👀 View Paper</button>
@@ -1541,9 +1631,7 @@
          data-title="BCA 2 SEM OPERATING SYSTEM AND UNIX 2014">
       <div class="paper-title">BCA 2 SEM OPERATING SYSTEM AND UNIX 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-operating-system-and-unix-2014.pdf', '_blank')">👀 View Paper</button>
@@ -1559,8 +1647,7 @@
       <div class="paper-title">BCA 2 SEM OPERATING SYSTEM AND UNIX 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-operating-system-and-unix-2016.pdf', '_blank')">👀 View Paper</button>
@@ -1576,8 +1663,7 @@
       <div class="paper-title">BCA 2 SEM OPERATING SYSTEM AND UNIX 303205 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-operating-system-and-unix-303205-2017.pdf', '_blank')">👀 View Paper</button>
@@ -1593,8 +1679,7 @@
       <div class="paper-title">BCA 2 SEM OPERATING SYSTEM AND UNIX 303205 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-operating-system-and-unix-303205-2018.pdf', '_blank')">👀 View Paper</button>
@@ -1610,8 +1695,7 @@
       <div class="paper-title">BCA 2 SEM OPERATING SYSTEM AND UNIX 303205 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-operating-system-and-unix-303205-2019.pdf', '_blank')">👀 View Paper</button>
@@ -1627,8 +1711,7 @@
       <div class="paper-title">BCA 2 SEM OPERATING SYSTEM AND UNIX 303205 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-operating-system-and-unix-303205-2021.pdf', '_blank')">👀 View Paper</button>
@@ -1644,8 +1727,7 @@
       <div class="paper-title">BCA 2 SEM OPERATING SYSTEM AND UNIX 303205 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-operating-system-and-unix-303205-2022.pdf', '_blank')">👀 View Paper</button>
@@ -1661,8 +1743,7 @@
       <div class="paper-title">BCA 2 SEM OPERATING SYSTEM AND UNIX 303205 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-operating-system-and-unix-303205-2023.pdf', '_blank')">👀 View Paper</button>
@@ -1677,9 +1758,7 @@
          data-title="BCA 2 SEM PROBLEM SOLVING TECHNIQUE AND PROGRAMMING IN C 2014">
       <div class="paper-title">BCA 2 SEM PROBLEM SOLVING TECHNIQUE AND PROGRAMMING IN C 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-problem-solving-technique-and-programming-in-c-2014.pdf', '_blank')">👀 View Paper</button>
@@ -1695,8 +1774,7 @@
       <div class="paper-title">BCA 2 SEM PROBLEM SOLVING TECHNIQUE AND PROGRAMMING IN C 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-problem-solving-technique-and-programming-in-c-2015.pdf', '_blank')">👀 View Paper</button>
@@ -1712,8 +1790,7 @@
       <div class="paper-title">BCA 2 SEM PROBLEM SOLVING TECHNIQUE AND PROGRAMMING IN C 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-problem-solving-technique-and-programming-in-c-2016.pdf', '_blank')">👀 View Paper</button>
@@ -1729,8 +1806,7 @@
       <div class="paper-title">BCA 2 SEM PROBLEM SOLVING TECHNIQUE AND PROGRAMMING IN C 303204 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-problem-solving-technique-and-programming-in-c-303204-2017.pdf', '_blank')">👀 View Paper</button>
@@ -1746,8 +1822,7 @@
       <div class="paper-title">BCA 2 SEM PROBLEM SOLVING TECHNIQUE AND PROGRAMMING IN C 303204 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-problem-solving-technique-and-programming-in-c-303204-2018.pdf', '_blank')">👀 View Paper</button>
@@ -1763,8 +1838,7 @@
       <div class="paper-title">BCA 2 SEM PROBLEM SOLVING TECHNIQUE AND PROGRAMMING IN C 303204 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-problem-solving-technique-and-programming-in-c-303204-2019.pdf', '_blank')">👀 View Paper</button>
@@ -1780,8 +1854,7 @@
       <div class="paper-title">BCA 2 SEM PROBLEM SOLVING TECHNIQUE AND PROGRAMMING IN C 303204 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-problem-solving-technique-and-programming-in-c-303204-2021.pdf', '_blank')">👀 View Paper</button>
@@ -1797,8 +1870,7 @@
       <div class="paper-title">BCA 2 SEM PROBLEM SOLVING TECHNIQUE AND PROGRAMMING IN C 303204 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-problem-solving-technique-and-programming-in-c-303204-2022.pdf', '_blank')">👀 View Paper</button>
@@ -1813,9 +1885,7 @@
          data-title="BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 2014">
       <div class="paper-title">BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-system-analysis-and-design-2014.pdf', '_blank')">👀 View Paper</button>
@@ -1831,8 +1901,7 @@
       <div class="paper-title">BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-system-analysis-and-design-2015.pdf', '_blank')">👀 View Paper</button>
@@ -1848,8 +1917,7 @@
       <div class="paper-title">BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-system-analysis-and-design-2016.pdf', '_blank')">👀 View Paper</button>
@@ -1865,8 +1933,7 @@
       <div class="paper-title">BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 303203 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-system-analysis-and-design-303203-2017.pdf', '_blank')">👀 View Paper</button>
@@ -1882,8 +1949,7 @@
       <div class="paper-title">BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 303203 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-system-analysis-and-design-303203-2018.pdf', '_blank')">👀 View Paper</button>
@@ -1899,8 +1965,7 @@
       <div class="paper-title">BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 303203 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-system-analysis-and-design-303203-2019.pdf', '_blank')">👀 View Paper</button>
@@ -1916,8 +1981,7 @@
       <div class="paper-title">BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 303203 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-system-analysis-and-design-303203-2021.pdf', '_blank')">👀 View Paper</button>
@@ -1933,8 +1997,7 @@
       <div class="paper-title">BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 303203 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-system-analysis-and-design-303203-2022.pdf', '_blank')">👀 View Paper</button>
@@ -1950,8 +2013,7 @@
       <div class="paper-title">BCA 2 SEM SYSTEM ANALYSIS AND DESIGN 303203 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-2-sem-system-analysis-and-design-303203-2023.pdf', '_blank')">👀 View Paper</button>
@@ -1967,8 +2029,7 @@
       <div class="paper-title">BCA 3 SEM INTERNET AND WEB DESIGN 303302 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-internet-and-web-design-303302-2024.pdf', '_blank')">👀 View Paper</button>
@@ -1983,9 +2044,7 @@
          data-title="BCA 3 SEM INTERNET AND WEB DESIGNING 2014">
       <div class="paper-title">BCA 3 SEM INTERNET AND WEB DESIGNING 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-internet-and-web-designing-2014.pdf', '_blank')">👀 View Paper</button>
@@ -2001,8 +2060,7 @@
       <div class="paper-title">BCA 3 SEM INTERNET AND WEB DESIGNING 303302 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-internet-and-web-designing-303302-2017.pdf', '_blank')">👀 View Paper</button>
@@ -2018,8 +2076,7 @@
       <div class="paper-title">BCA 3 SEM INTERNET AND WEB DESIGNING 303302 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-internet-and-web-designing-303302-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2035,8 +2092,7 @@
       <div class="paper-title">BCA 3 SEM INTERNET AND WEB DESIGNING 303302 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-internet-and-web-designing-303302-2019.pdf', '_blank')">👀 View Paper</button>
@@ -2052,8 +2108,7 @@
       <div class="paper-title">BCA 3 SEM INTERNET AND WEB DESIGNING 303302 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-internet-and-web-designing-303302-2020.pdf', '_blank')">👀 View Paper</button>
@@ -2069,8 +2124,7 @@
       <div class="paper-title">BCA 3 SEM INTERNET AND WEB DESIGNING 303302 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-internet-and-web-designing-303302-2022.pdf', '_blank')">👀 View Paper</button>
@@ -2085,9 +2139,7 @@
          data-title="BCA 3 SEM JAVA PROGRAMMING 2014">
       <div class="paper-title">BCA 3 SEM JAVA PROGRAMMING 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-java-programming-2014.pdf', '_blank')">👀 View Paper</button>
@@ -2103,8 +2155,7 @@
       <div class="paper-title">BCA 3 SEM JAVA PROGRAMMING 303303 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-java-programming-303303-2017.pdf', '_blank')">👀 View Paper</button>
@@ -2120,8 +2171,7 @@
       <div class="paper-title">BCA 3 SEM JAVA PROGRAMMING 303303 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-java-programming-303303-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2137,8 +2187,7 @@
       <div class="paper-title">BCA 3 SEM JAVA PROGRAMMING 303303 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-java-programming-303303-2019.pdf', '_blank')">👀 View Paper</button>
@@ -2154,8 +2203,7 @@
       <div class="paper-title">BCA 3 SEM JAVA PROGRAMMING 303303 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-java-programming-303303-2020.pdf', '_blank')">👀 View Paper</button>
@@ -2171,8 +2219,7 @@
       <div class="paper-title">BCA 3 SEM JAVA PROGRAMMING 303303 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-java-programming-303303-2022.pdf', '_blank')">👀 View Paper</button>
@@ -2188,8 +2235,7 @@
       <div class="paper-title">BCA 3 SEM JAVA PROGRAMMING 303303 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-java-programming-303303-2024.pdf', '_blank')">👀 View Paper</button>
@@ -2204,9 +2250,7 @@
          data-title="BCA 3 SEM OBJECT ORIENTED PROGRAMMING USING CPP 2014">
       <div class="paper-title">BCA 3 SEM OBJECT ORIENTED PROGRAMMING USING CPP 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-object-oriented-programming-using-cpp-2014.pdf', '_blank')">👀 View Paper</button>
@@ -2222,8 +2266,7 @@
       <div class="paper-title">BCA 3 SEM OBJECT ORIENTED PROGRAMMING USING CPP 303301 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-object-oriented-programming-using-cpp-303301-2017.pdf', '_blank')">👀 View Paper</button>
@@ -2239,8 +2282,7 @@
       <div class="paper-title">BCA 3 SEM OBJECT ORIENTED PROGRAMMING USING CPP 303301 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-object-oriented-programming-using-cpp-303301-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2256,8 +2298,7 @@
       <div class="paper-title">BCA 3 SEM OBJECT ORIENTED PROGRAMMING USING CPP 303301 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-object-oriented-programming-using-cpp-303301-2019.pdf', '_blank')">👀 View Paper</button>
@@ -2273,8 +2314,7 @@
       <div class="paper-title">BCA 3 SEM OBJECT ORIENTED PROGRAMMING USING CPP 303301 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-object-oriented-programming-using-cpp-303301-2020.pdf', '_blank')">👀 View Paper</button>
@@ -2290,8 +2330,7 @@
       <div class="paper-title">BCA 3 SEM OBJECT ORIENTED PROGRAMMING USING CPP 303301 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-object-oriented-programming-using-cpp-303301-2021.pdf', '_blank')">👀 View Paper</button>
@@ -2307,8 +2346,7 @@
       <div class="paper-title">BCA 3 SEM OBJECT ORIENTED PROGRAMMING USING CPP 303301 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-object-oriented-programming-using-cpp-303301-2022.pdf', '_blank')">👀 View Paper</button>
@@ -2324,8 +2362,7 @@
       <div class="paper-title">BCA 3 SEM OBJECT ORIENTED PROGRAMMING USING CPP 303301 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-object-oriented-programming-using-cpp-303301-2024.pdf', '_blank')">👀 View Paper</button>
@@ -2340,9 +2377,7 @@
          data-title="BCA 3 SEM SOFTWARE ENGINEERING 2014">
       <div class="paper-title">BCA 3 SEM SOFTWARE ENGINEERING 2014</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-software-engineering-2014.pdf', '_blank')">👀 View Paper</button>
@@ -2358,8 +2393,7 @@
       <div class="paper-title">BCA 3 SEM SOFTWARE ENGINEERING 303304 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-software-engineering-303304-2017.pdf', '_blank')">👀 View Paper</button>
@@ -2375,8 +2409,7 @@
       <div class="paper-title">BCA 3 SEM SOFTWARE ENGINEERING 303304 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-software-engineering-303304-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2392,8 +2425,7 @@
       <div class="paper-title">BCA 3 SEM SOFTWARE ENGINEERING 303304 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-software-engineering-303304-2019.pdf', '_blank')">👀 View Paper</button>
@@ -2409,8 +2441,7 @@
       <div class="paper-title">BCA 3 SEM SOFTWARE ENGINEERING 303304 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-software-engineering-303304-2020.pdf', '_blank')">👀 View Paper</button>
@@ -2426,8 +2457,7 @@
       <div class="paper-title">BCA 3 SEM SOFTWARE ENGINEERING 303304 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-software-engineering-303304-2022.pdf', '_blank')">👀 View Paper</button>
@@ -2443,8 +2473,7 @@
       <div class="paper-title">BCA 3 SEM SOFTWARE ENGINEERING 303304 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-3-sem-software-engineering-303304-2024.pdf', '_blank')">👀 View Paper</button>
@@ -2460,8 +2489,7 @@
       <div class="paper-title">BCA 4 SEM DIGITAL ELECTRONICS COMPUTER ARCHITECTURE AND ORGANISATION 303402 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-digital-electronics-computer-architecture-and-organisation-303402-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2477,8 +2505,7 @@
       <div class="paper-title">BCA 4 SEM DIGITAL ELECTRONICS COMPUTER ARCHITECTURE AND ORGANISATION 303402 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-digital-electronics-computer-architecture-and-organisation-303402-2019.pdf', '_blank')">👀 View Paper</button>
@@ -2494,8 +2521,7 @@
       <div class="paper-title">BCA 4 SEM DIGITAL ELECTRONICS COMPUTER SYSTEM ARCHITECTURE 303402 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-digital-electronics-computer-system-architecture-303402-2023.pdf', '_blank')">👀 View Paper</button>
@@ -2511,8 +2537,7 @@
       <div class="paper-title">BCA 4 SEM DIGITAL ELECTRONICS COMPUTER SYSTEM ARCHITECTURE 303402 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-digital-electronics-computer-system-architecture-303402-2024.pdf', '_blank')">👀 View Paper</button>
@@ -2528,8 +2553,7 @@
       <div class="paper-title">BCA 4 SEM DIGITAL ELECTRONICS COMPUTER SYSTEM ARCHITECTURE AND ORGANIZATION 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-digital-electronics-computer-system-architecture-and-organization-2015.pdf', '_blank')">👀 View Paper</button>
@@ -2545,8 +2569,7 @@
       <div class="paper-title">BCA 4 SEM DIGITAL ELECTRONICS COMPUTER SYSTEM ARCHITECTURE AND ORGANIZATION 303402 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-digital-electronics-computer-system-architecture-and-organization-303402-2017.pdf', '_blank')">👀 View Paper</button>
@@ -2562,8 +2585,7 @@
       <div class="paper-title">BCA 4 SEM FILE AND DATA STRUCTURE 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-file-and-data-structure-2015.pdf', '_blank')">👀 View Paper</button>
@@ -2579,8 +2601,7 @@
       <div class="paper-title">BCA 4 SEM FILE AND DATA STRUCTURE 303403 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-file-and-data-structure-303403-2017.pdf', '_blank')">👀 View Paper</button>
@@ -2596,8 +2617,7 @@
       <div class="paper-title">BCA 4 SEM FILE AND DATA STRUCTURE 303403 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-file-and-data-structure-303403-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2613,8 +2633,7 @@
       <div class="paper-title">BCA 4 SEM FILE AND DATA STRUCTURE 303403 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-file-and-data-structure-303403-2019.pdf', '_blank')">👀 View Paper</button>
@@ -2630,8 +2649,7 @@
       <div class="paper-title">BCA 4 SEM FILE AND DATA STRUCTURE 303403 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-file-and-data-structure-303403-2023.pdf', '_blank')">👀 View Paper</button>
@@ -2647,8 +2665,7 @@
       <div class="paper-title">BCA 4 SEM INTRODUCTION TO BUSINESS STATISTICS 303404 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-introduction-to-business-statistics-303404-2017.pdf', '_blank')">👀 View Paper</button>
@@ -2664,8 +2681,7 @@
       <div class="paper-title">BCA 4 SEM INTRODUCTION TO BUSINESS STATISTICS 303404 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-introduction-to-business-statistics-303404-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2681,8 +2697,7 @@
       <div class="paper-title">BCA 4 SEM INTRODUCTION TO BUSINESS STATISTICS 303404 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-introduction-to-business-statistics-303404-2019.pdf', '_blank')">👀 View Paper</button>
@@ -2698,8 +2713,7 @@
       <div class="paper-title">BCA 4 SEM INTRODUCTION TO STATISTICS 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-introduction-to-statistics-2015.pdf', '_blank')">👀 View Paper</button>
@@ -2715,8 +2729,7 @@
       <div class="paper-title">BCA 4 SEM INTRODUCTION TO STATISTICS 303404 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-introduction-to-statistics-303404-2023.pdf', '_blank')">👀 View Paper</button>
@@ -2732,8 +2745,7 @@
       <div class="paper-title">BCA 4 SEM RELATION DATA BASE MANAGEMENT SYSTEM 303401 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-relation-data-base-management-system-303401-2017.pdf', '_blank')">👀 View Paper</button>
@@ -2749,8 +2761,7 @@
       <div class="paper-title">BCA 4 SEM RELATIONAL DATA BASE MANAGEMENT SYSTEM 303401 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-relational-data-base-management-system-303401-2019.pdf', '_blank')">👀 View Paper</button>
@@ -2766,8 +2777,7 @@
       <div class="paper-title">BCA 4 SEM RELATIONAL DATABASE MANAGEMENT SYSTEM 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-relational-database-management-system-2015.pdf', '_blank')">👀 View Paper</button>
@@ -2783,8 +2793,7 @@
       <div class="paper-title">BCA 4 SEM RELATIONAL DATABASE MANAGEMENT SYSTEM 303401 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-relational-database-management-system-303401-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2800,8 +2809,7 @@
       <div class="paper-title">BCA 4 SEM RELATIONAL DATABASE MANAGEMENT SYSTEM 303401 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-4-sem-relational-database-management-system-303401-2023.pdf', '_blank')">👀 View Paper</button>
@@ -2817,8 +2825,7 @@
       <div class="paper-title">BCA 5 SEM BUSINESS ACCOUNTING AND ENTERPRISE RESOURCE PLANNING 303504 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-business-accounting-and-enterprise-resource-planning-303504-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2834,8 +2841,7 @@
       <div class="paper-title">BCA 5 SEM BUSINESS ACCOUNTING AND ENTERPRISE RESOURCE PLANNING 303504 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-business-accounting-and-enterprise-resource-planning-303504-2020.pdf', '_blank')">👀 View Paper</button>
@@ -2851,8 +2857,7 @@
       <div class="paper-title">BCA 5 SEM BUSINESS ACCOUNTING AND ERP 303504 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-business-accounting-and-erp-303504-2023.pdf', '_blank')">👀 View Paper</button>
@@ -2868,8 +2873,7 @@
       <div class="paper-title">BCA 5 SEM COMPUTER NETWORK CS AND CST 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-computer-network-cs-and-cst-2015.pdf', '_blank')">👀 View Paper</button>
@@ -2885,8 +2889,7 @@
       <div class="paper-title">BCA 5 SEM COMPUTER NETWORK DATA COMMUNICATION AND CLIENT SERVER 303503 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-computer-network-data-communication-and-client-server-303503-2023.pdf', '_blank')">👀 View Paper</button>
@@ -2902,8 +2905,7 @@
       <div class="paper-title">BCA 5 SEM COMPUTER NETWORK DATA COMMUNICATION AND CLIENT SERVER TECHNOLOGY 303503 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-computer-network-data-communication-and-client-server-technology-303503-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2919,8 +2921,7 @@
       <div class="paper-title">BCA 5 SEM COMPUTER NETWORK DATA COMMUNICATION AND CLIENT SERVER TECHNOLOGY 303503 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-computer-network-data-communication-and-client-server-technology-303503-2019.pdf', '_blank')">👀 View Paper</button>
@@ -2936,8 +2937,7 @@
       <div class="paper-title">BCA 5 SEM COMPUTER NETWORK DATA COMMUNICATION AND CLIENT SERVER TECHNOLOGY 303503 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-computer-network-data-communication-and-client-server-technology-303503-2020.pdf', '_blank')">👀 View Paper</button>
@@ -2953,8 +2953,7 @@
       <div class="paper-title">BCA 5 SEM GRAPHICS AND MULTIMEDIA 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-graphics-and-multimedia-2015.pdf', '_blank')">👀 View Paper</button>
@@ -2970,8 +2969,7 @@
       <div class="paper-title">BCA 5 SEM GRAPHICS AND MULTIMEDIA 303502 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-graphics-and-multimedia-303502-2018.pdf', '_blank')">👀 View Paper</button>
@@ -2987,8 +2985,7 @@
       <div class="paper-title">BCA 5 SEM GRAPHICS AND MULTIMEDIA 303502 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-graphics-and-multimedia-303502-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3004,8 +3001,7 @@
       <div class="paper-title">BCA 5 SEM GRAPHICS AND MULTIMEDIA 303502 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-graphics-and-multimedia-303502-2020.pdf', '_blank')">👀 View Paper</button>
@@ -3021,8 +3017,7 @@
       <div class="paper-title">BCA 5 SEM GRAPHICS AND MULTIMEDIA 303502 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-graphics-and-multimedia-303502-2023.pdf', '_blank')">👀 View Paper</button>
@@ -3037,9 +3032,7 @@
          data-title="BCA 5 SEM WINDOWS PROGRAMMING USING VB DOT NET 303501 20120">
       <div class="paper-title">BCA 5 SEM WINDOWS PROGRAMMING USING VB DOT NET 303501 20120</div>
       <div class="tags">
-        <span class="tag-item">📅 NA</span>
         <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-windows-programming-using-vb-dot-net-303501-20120.pdf', '_blank')">👀 View Paper</button>
@@ -3055,8 +3048,7 @@
       <div class="paper-title">BCA 5 SEM WINDOWS PROGRAMMING USING VB DOT NET 303501 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-windows-programming-using-vb-dot-net-303501-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3072,8 +3064,7 @@
       <div class="paper-title">BCA 5 SEM WINDOWS PROGRAMMING USING VB DOT NET 303501 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-windows-programming-using-vb-dot-net-303501-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3089,8 +3080,7 @@
       <div class="paper-title">BCA 5 SEM WINDOWS PROGRAMMING USING VB NET 303501 2023</div>
       <div class="tags">
         <span class="tag-item">📅 2023</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-5-sem-windows-programming-using-vb-net-303501-2023.pdf', '_blank')">👀 View Paper</button>
@@ -3106,8 +3096,7 @@
       <div class="paper-title">BCA 6 SEM E COMMERCE 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-6-sem-e-commerce-2015.pdf', '_blank')">👀 View Paper</button>
@@ -3123,8 +3112,7 @@
       <div class="paper-title">BCA 6 SEM E COMMERCE 303603 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-6-sem-e-commerce-303603-2022.pdf', '_blank')">👀 View Paper</button>
@@ -3140,8 +3128,7 @@
       <div class="paper-title">BCA 6 SEM E COMMERCE 303603 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-6-sem-e-commerce-303603-2024.pdf', '_blank')">👀 View Paper</button>
@@ -3157,8 +3144,7 @@
       <div class="paper-title">BCA 6 SEM VEB TECHNOLOGY 303601 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-6-sem-veb-technology-303601-2024.pdf', '_blank')">👀 View Paper</button>
@@ -3174,8 +3160,7 @@
       <div class="paper-title">BCA 6 SEM WEB TECHNOLOGY 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-6-sem-web-technology-2015.pdf', '_blank')">👀 View Paper</button>
@@ -3191,8 +3176,7 @@
       <div class="paper-title">BCA 6 SEM WEB TECHNOLOGY 303601 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCA/bca-6-sem-web-technology-303601-2022.pdf', '_blank')">👀 View Paper</button>
@@ -3200,7 +3184,7 @@
       </div>
     </div>
 </div>
-<div class="folder-section" id="BCOM" style="display:none;">
+<div class="folder-section" id="bcom" style="display:none;">
 
     <div class="paper-card" 
          data-sem="1-sem" 
@@ -3210,8 +3194,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BASIC SPREADSHEET CONCEPTS 313105 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-basic-spreadsheet-concepts-313105-2015.pdf', '_blank')">👀 View Paper</button>
@@ -3227,8 +3210,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BASIC SPREADSHEET CONCEPTS 313105 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-basic-spreadsheet-concepts-313105-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3244,8 +3226,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BASIC SPREADSHEET CONCEPTS 313105 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-basic-spreadsheet-concepts-313105-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3261,8 +3242,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BASIC SPREADSHEET CONCEPTS 313105 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-basic-spreadsheet-concepts-313105-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3278,8 +3258,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS ECONOMICS 313102 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-economics-313102-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3295,8 +3274,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS ECONOMICS 313102 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-economics-313102-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3312,8 +3290,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS ORGANIZATION AND MANAGEMENT 313103 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-organization-and-management-313103-2015.pdf', '_blank')">👀 View Paper</button>
@@ -3329,8 +3306,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS ORGANIZATION AND MANAGEMENT 313103 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-organization-and-management-313103-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3346,8 +3322,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS ORGANIZATION AND MANAGEMENT 313103 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-organization-and-management-313103-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3363,8 +3338,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS ORGANIZATION AND MANAGEMENT 313103 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-organization-and-management-313103-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3380,8 +3354,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS STATISTICS 313104 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-statistics-313104-2015.pdf', '_blank')">👀 View Paper</button>
@@ -3397,8 +3370,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS STATISTICS 313104 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-statistics-313104-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3414,8 +3386,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS STATISTICS 313104 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-statistics-313104-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3431,8 +3402,7 @@
       <div class="paper-title">BCOM 1 SEM PROF BUSINESS STATISTICS 313104 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-business-statistics-313104-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3448,8 +3418,7 @@
       <div class="paper-title">BCOM 1 SEM PROF COMMUNICATIVE ENGLISH 313106 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-communicative-english-313106-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3465,8 +3434,7 @@
       <div class="paper-title">BCOM 1 SEM PROF COMMUNICATIVE ENGLISH 313106 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-communicative-english-313106-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3482,8 +3450,7 @@
       <div class="paper-title">BCOM 1 SEM PROF COMMUNICATIVE ENGLISH 313106 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-communicative-english-313106-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3499,8 +3466,7 @@
       <div class="paper-title">BCOM 1 SEM PROF FINANCIAL ACCOUNTING 1 313101 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-financial-accounting-1-313101-2015.pdf', '_blank')">👀 View Paper</button>
@@ -3516,8 +3482,7 @@
       <div class="paper-title">BCOM 1 SEM PROF FINANCIAL ACCOUNTING 1 313101 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-financial-accounting-1-313101-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3533,8 +3498,7 @@
       <div class="paper-title">BCOM 1 SEM PROF FINANCIAL ACCOUNTING 1 313101 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 1 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 1 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-1-sem-prof-financial-accounting-1-313101-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3550,8 +3514,7 @@
       <div class="paper-title">BCOM 2 SEM PROF BUSINESS ENGLISH 313206 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-business-english-313206-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3567,8 +3530,7 @@
       <div class="paper-title">BCOM 2 SEM PROF BUSINESS ENGLISH 313206 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-business-english-313206-2017.pdf', '_blank')">👀 View Paper</button>
@@ -3584,8 +3546,7 @@
       <div class="paper-title">BCOM 2 SEM PROF BUSINESS ENGLISH 313206 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-business-english-313206-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3601,8 +3562,7 @@
       <div class="paper-title">BCOM 2 SEM PROF BUSINESS LAW 313202 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-business-law-313202-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3618,8 +3578,7 @@
       <div class="paper-title">BCOM 2 SEM PROF BUSINESS MATHEMATICS 313203 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-business-mathematics-313203-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3635,8 +3594,7 @@
       <div class="paper-title">BCOM 2 SEM PROF BUSINESS MATHEMATICS 313203 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-business-mathematics-313203-2017.pdf', '_blank')">👀 View Paper</button>
@@ -3652,8 +3610,7 @@
       <div class="paper-title">BCOM 2 SEM PROF BUSINESS MATHEMATICS 313203 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-business-mathematics-313203-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3669,8 +3626,7 @@
       <div class="paper-title">BCOM 2 SEM PROF BUSINESS MATHEMATICS 313203 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-business-mathematics-313203-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3686,8 +3642,7 @@
       <div class="paper-title">BCOM 2 SEM PROF FINANCIAL ACCOUNTING 2 313201 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-financial-accounting-2-313201-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3703,8 +3658,7 @@
       <div class="paper-title">BCOM 2 SEM PROF FINANCIAL ACCOUNTING 2 313201 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-financial-accounting-2-313201-2017.pdf', '_blank')">👀 View Paper</button>
@@ -3720,8 +3674,7 @@
       <div class="paper-title">BCOM 2 SEM PROF FINANCIAL ACCOUNTING 2 313201 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-financial-accounting-2-313201-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3737,8 +3690,7 @@
       <div class="paper-title">BCOM 2 SEM PROF FINANCIAL ACCOUNTING 2 313201 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-financial-accounting-2-313201-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3754,8 +3706,7 @@
       <div class="paper-title">BCOM 2 SEM PROF FINANCIAL ACCOUNTING 2 313201 2021</div>
       <div class="tags">
         <span class="tag-item">📅 2021</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-financial-accounting-2-313201-2021.pdf', '_blank')">👀 View Paper</button>
@@ -3771,8 +3722,7 @@
       <div class="paper-title">BCOM 2 SEM PROF INTERMEDIATE SPREADSHEET CONCEPTS 313205 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-intermediate-spreadsheet-concepts-313205-2015.pdf', '_blank')">👀 View Paper</button>
@@ -3788,8 +3738,7 @@
       <div class="paper-title">BCOM 2 SEM PROF INTERMEDIATE SPREADSHEET CONCEPTS 313205 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-intermediate-spreadsheet-concepts-313205-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3805,8 +3754,7 @@
       <div class="paper-title">BCOM 2 SEM PROF INTERMEDIATE SPREADSHEET CONCEPTS 313205 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-intermediate-spreadsheet-concepts-313205-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3822,8 +3770,7 @@
       <div class="paper-title">BCOM 2 SEM PROF INTERMEDIATE SPREADSHEET CONCEPTS 313205 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-intermediate-spreadsheet-concepts-313205-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3839,8 +3786,7 @@
       <div class="paper-title">BCOM 2 SEM PROF IT FOR ACCOUNTING 313204 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-it-for-accounting-313204-2015.pdf', '_blank')">👀 View Paper</button>
@@ -3856,8 +3802,7 @@
       <div class="paper-title">BCOM 2 SEM PROF IT FOR ACCOUNTING 313204 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-it-for-accounting-313204-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3873,8 +3818,7 @@
       <div class="paper-title">BCOM 2 SEM PROF IT FOR ACCOUNTING 313204 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-it-for-accounting-313204-2017.pdf', '_blank')">👀 View Paper</button>
@@ -3890,8 +3834,7 @@
       <div class="paper-title">BCOM 2 SEM PROF IT FOR ACCOUNTING 313204 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-it-for-accounting-313204-2018.pdf', '_blank')">👀 View Paper</button>
@@ -3907,8 +3850,7 @@
       <div class="paper-title">BCOM 2 SEM PROF IT FOR ACCOUNTING 313204 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-it-for-accounting-313204-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3924,8 +3866,7 @@
       <div class="paper-title">BCOM 2 SEM PROF MERCANTILE CORPORATE LAW 313202 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-mercantile-corporate-law-313202-2015.pdf', '_blank')">👀 View Paper</button>
@@ -3941,8 +3882,7 @@
       <div class="paper-title">BCOM 2 SEM PROF MERCANTILE CORPORATE LAW 313202 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-mercantile-corporate-law-313202-2016.pdf', '_blank')">👀 View Paper</button>
@@ -3958,8 +3898,7 @@
       <div class="paper-title">BCOM 2 SEM PROF MERCANTILE CORPORATE LAW 313202 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-mercantile-corporate-law-313202-2017.pdf', '_blank')">👀 View Paper</button>
@@ -3975,8 +3914,7 @@
       <div class="paper-title">BCOM 2 SEM PROF MERCANTILE CORPORATE LAW 313202 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 2 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 2 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-2-sem-prof-mercantile-corporate-law-313202-2019.pdf', '_blank')">👀 View Paper</button>
@@ -3992,8 +3930,7 @@
       <div class="paper-title">BCOM 3 SEM PROF E COMMERCE 313304 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-e-commerce-313304-2015.pdf', '_blank')">👀 View Paper</button>
@@ -4009,8 +3946,7 @@
       <div class="paper-title">BCOM 3 SEM PROF E COMMERCE 313304 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-e-commerce-313304-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4026,8 +3962,7 @@
       <div class="paper-title">BCOM 3 SEM PROF E COMMERCE 313304 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-e-commerce-313304-2019.pdf', '_blank')">👀 View Paper</button>
@@ -4043,8 +3978,7 @@
       <div class="paper-title">BCOM 3 SEM PROF E COMMERCE 313304 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-e-commerce-313304-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4060,8 +3994,7 @@
       <div class="paper-title">BCOM 3 SEM PROF ENTREPRENEURSHIP 313303 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-entrepreneurship-313303-2015.pdf', '_blank')">👀 View Paper</button>
@@ -4077,8 +4010,7 @@
       <div class="paper-title">BCOM 3 SEM PROF ENTREPRENEURSHIP 313303 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-entrepreneurship-313303-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4094,8 +4026,7 @@
       <div class="paper-title">BCOM 3 SEM PROF ENTREPRENEURSHIP 313303 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-entrepreneurship-313303-2019.pdf', '_blank')">👀 View Paper</button>
@@ -4111,8 +4042,7 @@
       <div class="paper-title">BCOM 3 SEM PROF ENTREPRENEURSHIP 313303 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-entrepreneurship-313303-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4128,8 +4058,7 @@
       <div class="paper-title">BCOM 3 SEM PROF MANAGEMENT ACCOUNTING 313301 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-management-accounting-313301-2015.pdf', '_blank')">👀 View Paper</button>
@@ -4145,8 +4074,7 @@
       <div class="paper-title">BCOM 3 SEM PROF MANAGEMENT ACCOUNTING 313301 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-management-accounting-313301-2017.pdf', '_blank')">👀 View Paper</button>
@@ -4162,8 +4090,7 @@
       <div class="paper-title">BCOM 3 SEM PROF MANAGEMENT ACCOUNTING 313301 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-management-accounting-313301-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4179,8 +4106,7 @@
       <div class="paper-title">BCOM 3 SEM PROF MANAGEMENT ACCOUNTING 313301 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-management-accounting-313301-2019.pdf', '_blank')">👀 View Paper</button>
@@ -4196,8 +4122,7 @@
       <div class="paper-title">BCOM 3 SEM PROF MANAGEMENT ACCOUNTING 313301 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-management-accounting-313301-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4213,8 +4138,7 @@
       <div class="paper-title">BCOM 3 SEM PROF PROJECT APPRAISAL FINANCE AND MANAGEMENT 313305 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-project-appraisal-finance-and-management-313305-2015.pdf', '_blank')">👀 View Paper</button>
@@ -4230,8 +4154,7 @@
       <div class="paper-title">BCOM 3 SEM PROF PROJECT APPRAISAL FINANCE AND MANAGEMENT 313305 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-project-appraisal-finance-and-management-313305-2017.pdf', '_blank')">👀 View Paper</button>
@@ -4247,8 +4170,7 @@
       <div class="paper-title">BCOM 3 SEM PROF PROJECT APPRAISAL FINANCE AND MANAGEMENT 313305 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-project-appraisal-finance-and-management-313305-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4264,8 +4186,7 @@
       <div class="paper-title">BCOM 3 SEM PROF PROJECT APPRAISAL FINANCE AND MANAGEMENT 313305 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-project-appraisal-finance-and-management-313305-2019.pdf', '_blank')">👀 View Paper</button>
@@ -4281,8 +4202,7 @@
       <div class="paper-title">BCOM 3 SEM PROF PROJECT APPRAISAL FINANCE AND MANAGEMENT 313305 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-project-appraisal-finance-and-management-313305-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4298,8 +4218,7 @@
       <div class="paper-title">BCOM 3 SEM PROF TAXATION LAWS 313302 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-taxation-laws-313302-2015.pdf', '_blank')">👀 View Paper</button>
@@ -4315,8 +4234,7 @@
       <div class="paper-title">BCOM 3 SEM PROF TAXATION LAWS 313302 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-taxation-laws-313302-2017.pdf', '_blank')">👀 View Paper</button>
@@ -4332,8 +4250,7 @@
       <div class="paper-title">BCOM 3 SEM PROF TAXATION LAWS 313302 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-taxation-laws-313302-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4349,8 +4266,7 @@
       <div class="paper-title">BCOM 3 SEM PROF TAXATION LAWS 313302 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-taxation-laws-313302-2019.pdf', '_blank')">👀 View Paper</button>
@@ -4366,8 +4282,7 @@
       <div class="paper-title">BCOM 3 SEM PROF TAXATION LAWS 313302 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 3 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 3 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-3-sem-prof-taxation-laws-313302-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4383,8 +4298,7 @@
       <div class="paper-title">BCOM 4 SEM BUSINESS RESEARCH METHODOLOGY 313405 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-business-research-methodology-313405-2024.pdf', '_blank')">👀 View Paper</button>
@@ -4400,8 +4314,7 @@
       <div class="paper-title">BCOM 4 SEM COST ACCOUNTING 313401 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-cost-accounting-313401-2024.pdf', '_blank')">👀 View Paper</button>
@@ -4417,8 +4330,7 @@
       <div class="paper-title">BCOM 4 SEM FINANCIAL MANAGEMENT 313402 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-financial-management-313402-2024.pdf', '_blank')">👀 View Paper</button>
@@ -4434,8 +4346,7 @@
       <div class="paper-title">BCOM 4 SEM PROF AUDITING 313403 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-auditing-313403-2017.pdf', '_blank')">👀 View Paper</button>
@@ -4451,8 +4362,7 @@
       <div class="paper-title">BCOM 4 SEM PROF AUDITING 313403 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-auditing-313403-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4468,8 +4378,7 @@
       <div class="paper-title">BCOM 4 SEM PROF BUSINESS RESEARCH METHODOLOGY 313405 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-business-research-methodology-313405-2015.pdf', '_blank')">👀 View Paper</button>
@@ -4485,8 +4394,7 @@
       <div class="paper-title">BCOM 4 SEM PROF BUSINESS RESEARCH METHODOLOGY 313405 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-business-research-methodology-313405-2016.pdf', '_blank')">👀 View Paper</button>
@@ -4502,8 +4410,7 @@
       <div class="paper-title">BCOM 4 SEM PROF BUSINESS RESEARCH METHODOLOGY 313405 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-business-research-methodology-313405-2017.pdf', '_blank')">👀 View Paper</button>
@@ -4519,8 +4426,7 @@
       <div class="paper-title">BCOM 4 SEM PROF BUSINESS RESEARCH METHODOLOGY 313405 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-business-research-methodology-313405-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4536,8 +4442,7 @@
       <div class="paper-title">BCOM 4 SEM PROF COST ACCOUNTING 313401 2015</div>
       <div class="tags">
         <span class="tag-item">📅 2015</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-cost-accounting-313401-2015.pdf', '_blank')">👀 View Paper</button>
@@ -4553,8 +4458,7 @@
       <div class="paper-title">BCOM 4 SEM PROF COST ACCOUNTING 313401 2016</div>
       <div class="tags">
         <span class="tag-item">📅 2016</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-cost-accounting-313401-2016.pdf', '_blank')">👀 View Paper</button>
@@ -4570,8 +4474,7 @@
       <div class="paper-title">BCOM 4 SEM PROF COST ACCOUNTING 313401 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-cost-accounting-313401-2017.pdf', '_blank')">👀 View Paper</button>
@@ -4587,8 +4490,7 @@
       <div class="paper-title">BCOM 4 SEM PROF FINANCIAL MANAGEMENT 313402 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-financial-management-313402-2017.pdf', '_blank')">👀 View Paper</button>
@@ -4604,8 +4506,7 @@
       <div class="paper-title">BCOM 4 SEM PROF FINANCIAL MANAGEMENT 313402 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-financial-management-313402-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4621,8 +4522,7 @@
       <div class="paper-title">BCOM 4 SEM PROF TAXATION LAWS 2 313404 2017</div>
       <div class="tags">
         <span class="tag-item">📅 2017</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-taxation-laws-2-313404-2017.pdf', '_blank')">👀 View Paper</button>
@@ -4638,8 +4538,7 @@
       <div class="paper-title">BCOM 4 SEM PROF TAXATION LAWS 2 313404 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-prof-taxation-laws-2-313404-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4655,8 +4554,7 @@
       <div class="paper-title">BCOM 4 SEM TAXATION LAW 2 313404 2024</div>
       <div class="tags">
         <span class="tag-item">📅 2024</span>
-        <span class="tag-item">🎓 4 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 4 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-4-sem-taxation-law-2-313404-2024.pdf', '_blank')">👀 View Paper</button>
@@ -4672,8 +4570,7 @@
       <div class="paper-title">BCOM 5 SEM PROF FINANCIAL INSTITUTIONS SERVICES AND MARKETS 313501 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-financial-institutions-services-and-markets-313501-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4689,8 +4586,7 @@
       <div class="paper-title">BCOM 5 SEM PROF FINANCIAL INSTITUTIONS SERVICES AND MARKETS 313501 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-financial-institutions-services-and-markets-313501-2019.pdf', '_blank')">👀 View Paper</button>
@@ -4706,8 +4602,7 @@
       <div class="paper-title">BCOM 5 SEM PROF FINANCIAL INSTITUTIONS SERVICES AND MARKETS 313501 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-financial-institutions-services-and-markets-313501-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4723,8 +4618,7 @@
       <div class="paper-title">BCOM 5 SEM PROF PRINCIPLES AND PRACTICE OF BANKING 313503 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-principles-and-practice-of-banking-313503-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4740,8 +4634,7 @@
       <div class="paper-title">BCOM 5 SEM PROF PRINCIPLES AND PRACTICE OF BANKING 313503 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-principles-and-practice-of-banking-313503-2019.pdf', '_blank')">👀 View Paper</button>
@@ -4757,8 +4650,7 @@
       <div class="paper-title">BCOM 5 SEM PROF PRINCIPLES AND PRACTICE OF BANKING 313503 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-principles-and-practice-of-banking-313503-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4774,8 +4666,7 @@
       <div class="paper-title">BCOM 5 SEM PROF PRINCIPLES AND PRACTICE OF INSURANCE 313504 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-principles-and-practice-of-insurance-313504-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4791,8 +4682,7 @@
       <div class="paper-title">BCOM 5 SEM PROF PRINCIPLES AND PRACTICE OF INSURANCE 313504 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-principles-and-practice-of-insurance-313504-2019.pdf', '_blank')">👀 View Paper</button>
@@ -4808,8 +4698,7 @@
       <div class="paper-title">BCOM 5 SEM PROF PRINCIPLES AND PRACTICE OF INSURANCE 313504 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-principles-and-practice-of-insurance-313504-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4825,8 +4714,7 @@
       <div class="paper-title">BCOM 5 SEM PROF SECURITY ANALYSIS AND PORTFOLIO MANAGEMENT 313502 2018</div>
       <div class="tags">
         <span class="tag-item">📅 2018</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-security-analysis-and-portfolio-management-313502-2018.pdf', '_blank')">👀 View Paper</button>
@@ -4842,8 +4730,7 @@
       <div class="paper-title">BCOM 5 SEM PROF SECURITY ANALYSIS AND PORTFOLIO MANAGEMENT 313502 2019</div>
       <div class="tags">
         <span class="tag-item">📅 2019</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-security-analysis-and-portfolio-management-313502-2019.pdf', '_blank')">👀 View Paper</button>
@@ -4859,8 +4746,7 @@
       <div class="paper-title">BCOM 5 SEM PROF SECURITY ANALYSIS AND PORTFOLIO MANAGEMENT 313502 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 5 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 5 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-5-sem-prof-security-analysis-and-portfolio-management-313502-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4876,8 +4762,7 @@
       <div class="paper-title">BCOM 6 SEM PROF BUSINESS ETHICS 313603 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-6-sem-prof-business-ethics-313603-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4893,8 +4778,7 @@
       <div class="paper-title">BCOM 6 SEM PROF BUSINESS ETHICS 313603 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-6-sem-prof-business-ethics-313603-2022.pdf', '_blank')">👀 View Paper</button>
@@ -4910,8 +4794,7 @@
       <div class="paper-title">BCOM 6 SEM PROF BUSINESS INTELLIGENCE 313602 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-6-sem-prof-business-intelligence-313602-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4927,8 +4810,7 @@
       <div class="paper-title">BCOM 6 SEM PROF BUSINESS INTELLIGENCE 313602 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-6-sem-prof-business-intelligence-313602-2022.pdf', '_blank')">👀 View Paper</button>
@@ -4944,8 +4826,7 @@
       <div class="paper-title">BCOM 6 SEM PROF FINANCIAL MODELING 313604 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-6-sem-prof-financial-modeling-313604-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4961,8 +4842,7 @@
       <div class="paper-title">BCOM 6 SEM PROF FINANCIAL MODELLING 313604 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-6-sem-prof-financial-modelling-313604-2022.pdf', '_blank')">👀 View Paper</button>
@@ -4978,8 +4858,7 @@
       <div class="paper-title">BCOM 6 SEM PROF MARKETING MANAGEMENT 313601 2020</div>
       <div class="tags">
         <span class="tag-item">📅 2020</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-6-sem-prof-marketing-management-313601-2020.pdf', '_blank')">👀 View Paper</button>
@@ -4995,8 +4874,7 @@
       <div class="paper-title">BCOM 6 SEM PROF MARKETING MANAGEMENT 313601 2022</div>
       <div class="tags">
         <span class="tag-item">📅 2022</span>
-        <span class="tag-item">🎓 6 SEM</span>
-        <span class="tag-item">📖 NA</span>
+<span class="tag-item">🎓 6 SEM</span>
       </div>
       <div class="actions">
         <button class="view-btn" onclick="window.open('https://www.mnopdf.com/?view=https://university.mnopdf.com/akubihar/BCOM/bcom-6-sem-prof-marketing-management-313601-2022.pdf', '_blank')">👀 View Paper</button>
@@ -5004,7 +4882,21 @@
       </div>
     </div>
 </div>
-</div><button id="topBtn" onclick="scrollToTop()">⬆️</button>
+</div>
+<div id="shareModal" class="share-modal" onclick="closeShareModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h3>Share Paper Link 🔗</h3>
+    <textarea id="shareTextarea" class="share-textarea" readonly></textarea>
+    <div class="modal-actions">
+      <button class="copy-btn" onclick="copyShareLink()">📋 Copy Link</button>
+      <button class="whatsapp-btn" onclick="shareOnWhatsApp()">💬 Share on WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<button id="topBtn" onclick="scrollToTop()">⬆️</button>
+<button id="shareBtn" onclick="openShareModal()">📤</button>
+
 <script>
 let activeFilters = {year: [], part: [], sem: []};
 
@@ -5012,7 +4904,7 @@ let activeFilters = {year: [], part: [], sem: []};
 function showFolder(folder, btn) {
   // Hide all folders and remove active class
   document.querySelectorAll('.folder-section').forEach(div => div.style.display = 'none');
-  document.querySelectorAll('.folder-buttons button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.folder-buttons button[data-toggle-group="l2-folders"]').forEach(b => b.classList.remove('active'));
 
   // Show selected folder and add active class
   const selectedFolderDiv = document.getElementById(folder);
@@ -5028,7 +4920,35 @@ function showFolder(folder, btn) {
 }
 
 
+
+function showMoreButtons(btn) {
+    const targetGroup = btn.dataset.targetGroup;
+    let hiddenButtons = document.querySelectorAll(`[data-toggle-group="${targetGroup}"][style*="display: none"]`);
+    const countToShow = 7;
+    let showedCount = 0;
+    
+    // Iterate over the elements and show up to 7, using 'flex' display
+    for (let i = 0; i < hiddenButtons.length && showedCount < countToShow; i++) {
+        // Set display to 'flex' as buttons use flex layout in the CSS
+        hiddenButtons[i].style.display = 'flex'; 
+        showedCount++;
+    }
+    
+    // Check if there are any remaining hidden buttons after showing the batch
+    let remainingHidden = document.querySelectorAll(`[data-toggle-group="${targetGroup}"][style*="display: none"]`).length;
+    
+    if (remainingHidden === 0) {
+        btn.style.display = 'none'; // Hide MORE button if all are shown
+    } else {
+        // Keep the button text as "MORE" and just ensure it's visible
+        btn.style.display = 'flex'; // Ensure button is visible if more remain
+        btn.innerHTML = 'MORE'; 
+    }
+}
+
+
 function filterPapers() {
+  // Find the currently visible folder section
   let activeFolder = document.querySelector('.folder-section[style*="block"]');
   if (!activeFolder) return;
   let activeFolderId = activeFolder.id;
@@ -5085,7 +5005,8 @@ function applyFilters(folderId) {
   const noResultsEl = activeFolder.querySelector('.no-results');
   if (visibleCount === 0) {
     if (!noResultsEl) {
-        activeFolder.insertAdjacentHTML('beforeend', '<div class="no-results"><span class="no-results-icon">😔</span><p>No papers match your current filters or search query.</p></div>');
+        // Create an element with basic styles, as the main CSS doesn't cover this
+        activeFolder.insertAdjacentHTML('beforeend', '<div class="no-results" style="text-align: center; color: var(--text-secondary); padding: 30px; font-size: 1.1rem;"><span style="font-size: 2rem;">😔</span><p>No papers match your current filters or search query.</p></div>');
     }
   } else {
     if (noResultsEl) activeFolder.removeChild(noResultsEl);
@@ -5103,10 +5024,21 @@ function scrollToTop(){
     window.scrollTo({top:0, behavior:"smooth"}); 
 }
 
+window.onscroll = function() {
+  const topBtn = document.getElementById("topBtn");
+  if (topBtn) {
+    topBtn.style.display = window.scrollY > 200 ? "flex" : "none"; // Use flex to center the arrow
+  }
+};
 
-function initializeFilters(folderId = 'BCA') {
+
+function initializeFilters(folderId = 'bca') {
     const selectedFolderDiv = document.getElementById(folderId);
-    if (!selectedFolderDiv) return;
+    if (!selectedFolderDiv) { 
+        document.getElementById('selectedTitle').innerText = 'akubihar'.toUpperCase() + " PAPERS";
+        document.getElementById("dynamicFilters").innerHTML = ''; // Hide filters if no papers
+        return; 
+    }
 
     // Set title based on the active folder
     document.getElementById('selectedTitle').innerText = folderId.toUpperCase() + " PAPERS";
@@ -5118,33 +5050,70 @@ function initializeFilters(folderId = 'BCA') {
     const allCards = Array.from(selectedFolderDiv.querySelectorAll('.paper-card'));
 
     allCards.forEach(card => {
-        years.add(card.getAttribute('data-year'));
-        parts.add(card.getAttribute('data-part'));
-        sems.add(card.getAttribute('data-sem'));
+        // Only collect non-NA values
+        const year = card.getAttribute('data-year');
+        const part = card.getAttribute('data-part');
+        const sem = card.getAttribute('data-sem');
+        
+        if (year !== "NA") years.add(year);
+        if (part !== "NA") parts.add(part);
+        if (sem !== "NA") sems.add(sem);
     });
 
     let filterHtml = "";
     
-    const sortedYears = Array.from(years).filter(y => y !== "NA").sort().reverse();
-    const sortedParts = Array.from(parts).filter(p => p !== "NA").sort();
-    const sortedSems = Array.from(sems).filter(s => s !== "NA").sort();
+    const sortedYears = Array.from(years).sort().reverse();
+    const sortedParts = Array.from(parts).sort();
+    const sortedSems = Array.from(sems).sort(); // All semesters will be shown
 
-    filterHtml += "<b>Filter by Year:</b> ";
-    sortedYears.forEach(y => {
-        filterHtml += `<button data-type="year" data-value="${y}" onclick="setFilter(this, '${folderId}')">${y}</button>`;
-    });
+    // --- Year Filters with MORE logic ---
+    if (sortedYears.length > 0) {
+        filterHtml += "<b>Filter by Year:</b> ";
+        const yearLimit = 3;
+        const initialHiddenYears = sortedYears.length - yearLimit;
+        
+        sortedYears.forEach((y, i) => {
+            const style_display = i < yearLimit ? '' : ' style="display: none;"';
+            // Use 'y' directly for display
+            filterHtml += `<button data-type="year" data-value="${y}" data-toggle-group="year-filters" ${style_display} onclick="setFilter(this, '${folderId}')">${y}</button>`;
+        });
+        if (initialHiddenYears > 0) {
+            // Updated: Use the more specific class filter-more-btn and simple text
+            filterHtml += `<button class="filter-more-btn" data-target-group="year-filters" onclick="showMoreButtons(this)">MORE</button>`;
+        }
+    }
     
-    filterHtml += "<br><b>Filter by Part:</b> ";
-    sortedParts.forEach(p => {
-        filterHtml += `<button data-type="part" data-value="${p}" onclick="setFilter(this, '${folderId}')">${p.toUpperCase().replace('PART-', 'PART ')}</button>`;
-    });
+    // --- Part Filters with MORE logic ---
+    if (sortedParts.length > 0) {
+        filterHtml += "<br><b>Filter by Part:</b> ";
+        const partLimit = 3;
+        const initialHiddenParts = sortedParts.length - partLimit;
+        
+        sortedParts.forEach((p, i) => {
+            const style_display = i < partLimit ? '' : ' style="display: none;"';
+            // Display: UPPERCASE, replace 'part-' with 'PART '
+            const displayValue = p.toUpperCase().replace('PART-', 'PART ');
+            filterHtml += `<button data-type="part" data-value="${p}" data-toggle-group="part-filters" ${style_display} onclick="setFilter(this, '${folderId}')">${displayValue}</button>`;
+        });
+        if (initialHiddenParts > 0) {
+            // Updated: Use the more specific class filter-more-btn and simple text
+            filterHtml += `<button class="filter-more-btn" data-target-group="part-filters" onclick="showMoreButtons(this)">MORE</button>`;
+        }
+    }
     
-    filterHtml += "<br><b>Filter by Semester:</b> ";
-    sortedSems.forEach(s => {
-        filterHtml += `<button data-type="sem" data-value="${s}" onclick="setFilter(this, '${folderId}')">${s.toUpperCase().replace('-', ' ')}</button>`;
-    });
+    // --- Semester Filters (All shown) ---
+    if (sortedSems.length > 0) {
+        filterHtml += "<br><b>Filter by Semester:</b> ";
+        sortedSems.forEach(s => {
+            // Display: UPPERCASE, replace '-' with ' '
+            const displayValue = s.toUpperCase().replace('-', ' ');
+            filterHtml += `<button data-type="sem" data-value="${s}" onclick="setFilter(this, '${folderId}')">${displayValue}</button>`;
+        });
+    }
     
-    filterHtml += `<br><button class="clear-filter-btn" onclick="clearFilters('${folderId}')">Clear Filters ✖</button>`;
+    if (sortedYears.length > 0 || sortedParts.length > 0 || sortedSems.length > 0) {
+        filterHtml += `<br><button class="clear-filter-btn" onclick="clearFilters('${folderId}')">Clear Filters ✖</button>`;
+    }
 
     document.getElementById("dynamicFilters").innerHTML = filterHtml;
     // Apply filters on initialization to handle any initial search box input (though usually empty)
@@ -5153,20 +5122,59 @@ function initializeFilters(folderId = 'BCA') {
 
 
 
-window.onscroll = function() {
-  const topBtn = document.getElementById("topBtn");
-  if (topBtn) {
-    topBtn.style.display = window.scrollY > 200 ? "flex" : "none"; // Use flex to center the arrow
-  }
-};
+function getShareText() {
+    const title = document.title;
+    const pageLink = window.location.href;
+    return `${title}\n\nVisit: ${pageLink} to Download Previous Year Papers`;
+}
+
+function openShareModal() {
+    const shareModal = document.getElementById('shareModal');
+    const shareTextarea = document.getElementById('shareTextarea');
+    
+    shareTextarea.value = getShareText();
+    shareModal.style.display = 'block';
+}
+
+function closeShareModal(event) {
+    if (event.target === document.getElementById('shareModal')) {
+        document.getElementById('shareModal').style.display = 'none';
+    }
+}
+
+function copyShareLink() {
+    const shareTextarea = document.getElementById('shareTextarea');
+    shareTextarea.select();
+    shareTextarea.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(shareTextarea.value);
+    
+    // Simple visual feedback and close
+    const copyBtn = document.querySelector('.copy-btn');
+    const originalText = copyBtn.innerHTML;
+    copyBtn.innerHTML = '✅ Copied!';
+    
+    setTimeout(() => {
+        copyBtn.innerHTML = originalText;
+        document.getElementById('shareModal').style.display = 'none';
+    }, 1500);
+}
+
+function shareOnWhatsApp() {
+    const shareText = getShareText();
+    const encodedText = encodeURIComponent(shareText);
+    window.open(`https://wa.me/?text=${encodedText}`, '_blank');
+    document.getElementById('shareModal').style.display = 'none';
+}
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialization
-    const firstBtn = document.querySelector('.folder-buttons button');
+    const firstBtn = document.querySelector('.folder-buttons button[data-toggle-group="l2-folders"]');
     if (firstBtn) {
         // L1 Index: Start by activating the first button/section
-        showFolder(firstBtn.innerText, firstBtn);
+        // The innerText is used as the folder name
+        showFolder(firstBtn.innerText.toLowerCase(), firstBtn);
     } else {
         // L2 Index: Single section, initialize filters immediately
         initializeFilters();
